@@ -15,7 +15,7 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 
 #define PASTA "teste"         // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 454146          // Define a Seed: se 0 pega do relogio do sistema
-#define L 15             // Aresta da Rede
+#define L 10             // Aresta da Rede
 #define STEPS 100         // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
@@ -29,7 +29,7 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 
 
 int main(int argc, char *argv[]){
-    int seed = (if SEED == 0) ? time(NULL) : SEED ;
+    int seed = (SEED == 0) ? time(NULL) : SEED ;
     srand(seed);
 
     // Criação da pasta da simulação e comando de análise
@@ -116,11 +116,14 @@ int main(int argc, char *argv[]){
             mt = magnetizacao(sis, N);
             fprintf(medidas, "%d\t%lf\t%lf\t%lf\n", t, E/N, mt, corrtemp(s0, sis, m0, mt, N));
             if(nhk < HK){
-                hoshenkopelman(viz, sis, hksis, L);
+                if(CI) for(int i = 0; i < N; ++i) fprintf(ci, "%d\n", sis[i]);
+                printf("Oi\n");
+                hoshenkopelman(sis, viz, hksis, N);
+                printf("Oi2\n");
                 for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
                 fprintf(hk, "-1\n");
                 nhk++;
-                if(CI) for(int i = 0; i < N; ++i) fprintf(ci, "%d\n", sis[i]);
+
             }
             if((CR > 0) && (ncr < CR) && (s%stepcr == 0)){
                 corresp(crr, sis, viz, N, L, mt);

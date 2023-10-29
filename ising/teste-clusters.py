@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import sys
 
 
-L = 15           # Aresta da rede
+L = 10           # Aresta da rede
 STEPS = 100              # Número de MCS
 RND = 1                 # Condição inicial dos spins
 IMG = 0                 # Gravar estados
@@ -20,10 +20,10 @@ sis = np.loadtxt(sys.argv[1]+  f'ci-L-{L}-TI-{TI:.2f}-TF-{TF:.2f}-dT-{dT:.2f}-ST
 vmax = max(hksis)
 vmin = 0
 
-#hksis = np.arange(0, 225)
+#hksis = np.arange(0, 100)
 
-hksis = np.asarray(hksis[:-1].reshape((15, 15)), dtype='int16')
-sis = np.asarray(sis.reshape((15, 15)), dtype='int16')
+hksis = np.asarray(hksis[:-1].reshape((10, 10)), dtype='int16')
+sis = np.asarray(sis.reshape((10, 10)), dtype='int16')
 
 print(hksis)
 print(sis)

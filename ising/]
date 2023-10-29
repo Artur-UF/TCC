@@ -124,7 +124,7 @@ void hoshenkopelman(int *sis, int **viz, int *hk, int N){
     printf("Dentro da função\n");
 
     for(int i = 0; i < N; ++i){
-//        printf("To no %d\n", i);
+        printf("To no %d\n", i);
         if(sis[i] == sis[viz[i][1]]) unionfind(i, viz[i][1], hk, viz, 1);
         if(sis[i] == sis[viz[i][2]]) unionfind(i, viz[i][2], hk, viz, 2);
     }
@@ -142,22 +142,20 @@ void unionfind(int i, int j, int *hk, int **viz, int dir){
         break;
     }
 
-
-//    printf("hk[%d] = %d \nhk[%d] = %d\n\n", i, hk[i], j, hk[j]);
     if(hk[i] > hk[j]){
         recurlabel(hk, viz, i, hk[i], hk[j], dir);
-//        printf("ooooi\n");
+        printf("ooooi\n");
     }
-    if(hk[i] < hk[j]){
+    else{
         recurlabel(hk, viz, j, hk[j], hk[i], rdir);       
-//        printf("oiiii\n");
+        printf("oiiii\n");
     }
-//    printf("----------------------------------------------------------\n");
+
 }
 
 
 void recurlabel(int *hk, int **viz, int i, int labeli, int labelf, int dir){
-//    printf("in hk[%d] = %d\n", i, hk[i]);
+    printf("in hk[%d] = %d\n", i, hk[i]);
     if(hk[viz[i][0]] == labeli && dir != 0) recurlabel(hk, viz, viz[i][0], labeli, labelf, 2);
 
     if(hk[viz[i][1]] == labeli && dir != 1) recurlabel(hk, viz, viz[i][1], labeli, labelf, 3);
@@ -167,7 +165,7 @@ void recurlabel(int *hk, int **viz, int i, int labeli, int labelf, int dir){
     if(hk[viz[i][3]] == labeli && dir != 3) recurlabel(hk, viz, viz[i][3], labeli, labelf, 1);
 
     hk[i] = labelf;
-//    printf("hk[%d] = %d\n", i, hk[i]);
+    printf("out of %d\n", i);
 }
 
 
