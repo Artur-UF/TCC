@@ -115,59 +115,56 @@ void corresp(double *crr, int *s, int **viz, int n, int l, double m){
 
 
 void hoshenkopelman(int *sis, int **viz, int *hk, int N){
-
     // First assignment of values
     for(int i = 0; i < N; ++i){
         hk[i] = i;
     }
 
-    printf("Dentro da função\n");
-
+    // Union of clusters
     for(int i = 0; i < N; ++i){
-//        printf("To no %d\n", i);
-        if(sis[i] == sis[viz[i][1]]) unionfind(i, viz[i][1], hk, viz, 1);
-        if(sis[i] == sis[viz[i][2]]) unionfind(i, viz[i][2], hk, viz, 2);
+        if(sis[i] == sis[viz[i][1]]) unionfind(i, viz[i][1], hk, viz);
+        if(sis[i] == sis[viz[i][2]]) unionfind(i, viz[i][2], hk, viz);
     }
 }
 
 
-void unionfind(int i, int j, int *hk, int **viz, int dir){
-    int rdir;
-    switch(dir){
-        case 1:
-            rdir = 3;
-        break;
-        case 2:
-            rdir = 0;
-        break;
-    }
-
-
-//    printf("hk[%d] = %d \nhk[%d] = %d\n\n", i, hk[i], j, hk[j]);
+void unionfind(int i, int j, int *hk, int **viz){
+/*
+Decides wich label to use and then calls a recursive function
+to change the label
+*/
     if(hk[i] > hk[j]){
-        recurlabel(hk, viz, i, hk[i], hk[j], dir);
-//        printf("ooooi\n");
+        recurlabel(hk, viz, i, hk[i], hk[j]);
     }
     if(hk[i] < hk[j]){
-        recurlabel(hk, viz, j, hk[j], hk[i], rdir);       
-//        printf("oiiii\n");
+        recurlabel(hk, viz, j, hk[j], hk[i]);       
     }
-//    printf("----------------------------------------------------------\n");
 }
 
 
-void recurlabel(int *hk, int **viz, int i, int labeli, int labelf, int dir){
-//    printf("in hk[%d] = %d\n", i, hk[i]);
-    if(hk[viz[i][0]] == labeli && dir != 0) recurlabel(hk, viz, viz[i][0], labeli, labelf, 2);
+void recurlabel(int *hk, int **viz, int i, int labeli, int labelf){
+/*
+Searches recursively for more labels of same value and then finally
+changes all of them
+*/
 
-    if(hk[viz[i][1]] == labeli && dir != 1) recurlabel(hk, viz, viz[i][1], labeli, labelf, 3);
-
-    if(hk[viz[i][2]] == labeli && dir != 2) recurlabel(hk, viz, viz[i][2], labeli, labelf, 0);
-
-    if(hk[viz[i][3]] == labeli && dir != 3) recurlabel(hk, viz, viz[i][3], labeli, labelf, 1);
-
+    if(-hk[viz[i][0]] == -labeli){
+        hk[i] *= -1; 
+        recurlabel(hk, viz, viz[i][0], labeli, labelf);
+    }
+    if(-hk[viz[i][1]] == -labeli){
+        hk[i] *= -1;
+        recurlabel(hk, viz, viz[i][1], labeli, labelf);
+    }
+    if(-hk[viz[i][2]] == -labeli){
+        hk[i] *= -1;
+        recurlabel(hk, viz, viz[i][2], labeli, labelf);
+    }
+    if(-hk[viz[i][3]] == -labeli){
+        hk[i] *= -1;
+        recurlabel(hk, viz, viz[i][3], labeli, labelf);
+    }
     hk[i] = labelf;
-//    printf("hk[%d] = %d\n", i, hk[i]);
 }
 
 

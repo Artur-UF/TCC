@@ -14,8 +14,8 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 #include "lib.h"
 
 #define PASTA "teste"         // Define o nome da pasta na qual serão guardados os arquivos de saída 
-#define SEED 454146          // Define a Seed: se 0 pega do relogio do sistema
-#define L 10             // Aresta da Rede
+#define SEED 55454151          // Define a Seed: se 0 pega do relogio do sistema
+#define L 50             // Aresta da Rede
 #define STEPS 100         // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots

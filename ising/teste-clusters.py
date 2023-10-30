@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import sys
 
 
-L = 10           # Aresta da rede
+L = 50           # Aresta da rede
 STEPS = 100              # Número de MCS
 RND = 1                 # Condição inicial dos spins
 IMG = 0                 # Gravar estados
@@ -22,8 +22,8 @@ vmin = 0
 
 #hksis = np.arange(0, 100)
 
-hksis = np.asarray(hksis[:-1].reshape((10, 10)), dtype='int16')
-sis = np.asarray(sis.reshape((10, 10)), dtype='int16')
+hksis = np.asarray(hksis[:-1].reshape((L, L)), dtype='int16')
+sis = np.asarray(sis.reshape((L, L)), dtype='int16')
 
 print(hksis)
 print(sis)
@@ -31,10 +31,13 @@ print(sis)
 fig, axes= plt.subplots(2, 1, figsize=(4, 8), layout='constrained')
 
 im0 = axes[0].imshow(hksis, origin='upper', vmin=0, vmax=vmax)
+axes[0].invert_xaxis()
+
 im1 = axes[1].imshow(sis, origin='upper', vmin=-1, vmax=1)
-for (i, j), label in np.ndenumerate(hksis):
-#    print(f'({j},{i}) {label}')
-    axes[0].text(i, j, label, ha='center', va='center')
+axes[1].invert_xaxis()
+
+#for (i, j), label in np.ndenumerate(hksis):
+#    axes[0].text(j, i, label, ha='center', va='center')
 
 plt.colorbar(im0, ax=axes[0])
 plt.colorbar(im1, ax=axes[1])

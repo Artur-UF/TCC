@@ -27,7 +27,7 @@ void corresp(double *cr, int *s, int **viz, int n, int l, double m);
 
 void hoshenkopelman(int *sis, int **viz, int *hk, int N);
 
-void unionfind(int i, int j, int *hk, int **viz, int dir);
+void unionfind(int i, int j, int *hk, int **viz);
 
-void recurlabel(int *hk, int **viz, int i, int labeli, int labelf, int dir);
+void recurlabel(int *hk, int **viz, int i, int labeli, int labelf);
 #endif
