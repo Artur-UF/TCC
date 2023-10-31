@@ -22,10 +22,10 @@ int **vizinhos(int l){
         mtzviz[ni] = (int *)malloc(4*sizeof(int));
     }
     /*
-    mtzviz[0] - Direita
-    mtzviz[1] - Cima
-    mtzviz[2] - Esquerda
-    mtzviz[3] - Baixo
+    mtzviz[0] - right
+    mtzviz[1] - up
+    mtzviz[2] - left
+    mtzviz[3] - down
     */
 
     for(int i = 0; i < n; ++i){  
@@ -53,6 +53,9 @@ void defexp(double *expBeta, double beta){
 }
 
 void metropolis(int *sis, int **viz, double *E, double *expBeta, int J, int j){
+    /*
+    Apply the Metropolis algorithm
+    */
     int dE = 2*J*sis[j]*(sis[viz[j][0]] + sis[viz[j][1]] + sis[viz[j][2]] + sis[viz[j][3]]);
     if((dE < 0) || (uniform(0., 1.) < expBeta[dE/4])){
         sis[j] *= -1;
@@ -62,7 +65,7 @@ void metropolis(int *sis, int **viz, double *E, double *expBeta, int J, int j){
 
 int energia(int *sis, int **viz, int n, int j){
     /*
-    Função que calcula a energia do sistema
+    Mesures the energy of the system
     */
     int en = 0;
     for(int i = 0; i < n; ++i) en += sis[i]*(sis[viz[i][0]] + sis[viz[i][3]]);
@@ -71,7 +74,7 @@ int energia(int *sis, int **viz, int n, int j){
 
 double magnetizacao(int *sis, int n){
     /*
-    Função que calcula a magnetização so sistema
+    Mesures the magnetization of the system
     */
     double m = 0;
     for(int i = 0; i < n; ++i) m += sis[i];
@@ -80,7 +83,7 @@ double magnetizacao(int *sis, int n){
 
 double corrtemp(int *s0, int *st, double m0, double mt, int n){
     /*
-    Função que mede a correlação temporal no tempo  t do sistema
+    Mesures the time correlation of the system
     */
     double C = 0;
     for(int i = 0; i < n; ++i){
@@ -93,7 +96,7 @@ double corrtemp(int *s0, int *st, double m0, double mt, int n){
 
 void corresp(double *crr, int *s, int **viz, int n, int l, double m){
     /*
-    Função que mede a correlação espacial do sistema
+    Mesures the espacial correlation of the  system
     */
     double c = 0;
     int vv, vh;
@@ -114,7 +117,7 @@ void corresp(double *crr, int *s, int **viz, int n, int l, double m){
 }
 
 
-void hoshenkopelman(int *sis, int **viz, int *hk, int N){
+void hoshenkopelman(int *sis, int **viz, int *hk, int *hksize, int N){
     // First assignment of values
     for(int i = 0; i < N; ++i){
         hk[i] = i;
@@ -124,6 +127,11 @@ void hoshenkopelman(int *sis, int **viz, int *hk, int N){
     for(int i = 0; i < N; ++i){
         if(sis[i] == sis[viz[i][1]]) unionfind(i, viz[i][1], hk, viz);
         if(sis[i] == sis[viz[i][2]]) unionfind(i, viz[i][2], hk, viz);
+    }
+
+    // Mesure size of clusters
+    for(int i = 0; i < N; ++i){
+        hksize[hk[i]] += 1;
     }
 }
 
@@ -144,7 +152,7 @@ to change the label
 
 void recurlabel(int *hk, int **viz, int i, int labeli, int labelf){
 /*
-Searches recursively for more labels of same value and then finally
+Searches recursively for more labels of the same value and then finally
 changes all of them
 */
 

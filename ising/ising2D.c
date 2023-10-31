@@ -19,33 +19,36 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 #define STEPS 100         // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
-#define CI 1            // Para gravar a condição inicial
+#define CI 0            // Para gravar a condição inicial
 #define TI 2.            // Temperatura inicial
 #define TF 2.           // Temperatua final
 #define dT 0.05            // Delta T
 #define TRANS 1         // Número de MCS para jogar fora (transiente)
 #define CR 0            // Gravar a Correlação espacial
 #define HK 1            // Identificar clusters: 0 não mede | # > 0 mede # vezes seguidas
-
+#define SNAP 1          // Takes a snapshot of the moment
 
 int main(int argc, char *argv[]){
     int seed = (SEED == 0) ? time(NULL) : SEED ;
     srand(seed);
 
     // Criação da pasta da simulação e comando de análise
-    char saida1[100], saida2[100], saida3[100], saida4[100], saida5[100];
+    char saida1[100], saida2[100], saida3[100], saida4[100], saida5[100], saida6[100], saida7[100];
     sprintf(saida1, "%s/medidas-L-%d-TI-%.2lf-TF-%.2lf-dT-%.2lf-STEPS-%d-RND-%d-TRANS-%d.dat", PASTA, L, TI, TF, dT, STEPS, RND, TRANS);
     sprintf(saida2,      "%s/im-L-%d-TI-%.2lf-TF-%.2lf-dT-%.2lf-STEPS-%d-RND-%d-TRANS-%d.dat", PASTA, L, TI, TF, dT, STEPS, RND, TRANS);
     sprintf(saida3,      "%s/ci-L-%d-TI-%.2lf-TF-%.2lf-dT-%.2lf-STEPS-%d-RND-%d-TRANS-%d.dat", PASTA, L, TI, TF, dT, STEPS, RND, TRANS);
     sprintf(saida4,      "%s/CR-L-%d-TI-%.2lf-TF-%.2lf-dT-%.2lf-STEPS-%d-RND-%d-TRANS-%d.dat", PASTA, L, TI, TF, dT, STEPS, RND, TRANS);
     sprintf(saida5,      "%s/HK-L-%d-TI-%.2lf-TF-%.2lf-dT-%.2lf-STEPS-%d-RND-%d-TRANS-%d.dat", PASTA, L, TI, TF, dT, STEPS, RND, TRANS);
+    sprintf(saida6,     "%s/CLS-L-%d-TI-%.2lf-TF-%.2lf-dT-%.2lf-STEPS-%d-RND-%d-TRANS-%d.dat", PASTA, L, TI, TF, dT, STEPS, RND, TRANS);
+    sprintf(saida7,    "%s/snap-L-%d-TI-%.2lf-TF-%.2lf-dT-%.2lf-STEPS-%d-RND-%d-TRANS-%d.dat", PASTA, L, TI, TF, dT, STEPS, RND, TRANS);
 
     FILE *medidas = fopen(saida1, "a");
     FILE *img = fopen(saida2, "w");
     FILE *ci = fopen(saida3, "w");
     FILE *cr = fopen(saida4, "a");
     FILE *hk = fopen(saida5, "w");
-
+    FILE *cls = fopen(saida6, "w");
+    FILE *snap = fopen(saida7, "w");
     //__________________________________SIMULAÇÃO______________________________________________________________
 
     int i, j, s, t, dE, N = L*L, J = 1, nhk = 0, ncr = 0; 
@@ -70,13 +73,13 @@ int main(int argc, char *argv[]){
     double *expBeta = (double*)calloc(3, sizeof(int));
     defexp(expBeta, beta);
     int *hksis = (int*)calloc(N, sizeof(int));
-
+    int *hksize = (int*)calloc(N, sizeof(int));
 
     // Aplicando a Condição inicial
     if(RND) for(i = 0; i < N; ++i) sis[i] = (uniform(0., 1.) < .5) ? -1 : 1;
     else for(i = 0; i < N; ++i) sis[i] = 1;
     
-    //if(CI) for(i = 0; i < N; ++i) fprintf(ci, "%d\n", sis[i]);// devolva a CI para cá  
+    if(CI) for(i = 0; i < N; ++i) fprintf(ci, "%d\n", sis[i]);  
 
     // Loop para passar pelo transiente
     E = (double) energia(sis, viz, N, 1);
@@ -116,11 +119,10 @@ int main(int argc, char *argv[]){
             mt = magnetizacao(sis, N);
             fprintf(medidas, "%d\t%lf\t%lf\t%lf\n", t, E/N, mt, corrtemp(s0, sis, m0, mt, N));
             if(nhk < HK){
-                if(CI) for(int i = 0; i < N; ++i) fprintf(ci, "%d\n", sis[i]);
-                printf("Oi\n");
-                hoshenkopelman(sis, viz, hksis, N);
-                printf("Oi2\n");
+                if(SNAP != 0) for(int i = 0; i < N; ++i) fprintf(snap, "%d\n", sis[i]);
+                hoshenkopelman(sis, viz, hksis, hksize, N);
                 for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
+                for(int i = 0; i < N; ++i) fprintf(cls, "%d\n", hksize[i]);
                 fprintf(hk, "-1\n");
                 nhk++;
 
@@ -164,7 +166,11 @@ int main(int argc, char *argv[]){
     if(!IMG) remove(saida2);
     if(!CI) remove(saida3);
     if(CR == 0) remove(saida4);
-    if(HK == 0) remove(saida5);
+    if(HK == 0){
+        remove(saida5);
+        remove(saida6);
+    }
+    if(SNAP == 0) remove(saida7);
     return 0;
 }
 

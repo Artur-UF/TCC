@@ -7,7 +7,7 @@ L = 50           # Aresta da rede
 STEPS = 100              # Número de MCS
 RND = 1                 # Condição inicial dos spins
 IMG = 0                 # Gravar estados
-CI  = 1                 # Gravar condição inicial
+CI  = 0                 # Gravar condição inicial
 TI = 2.                  # Temperatura Inicial
 TF = 2.                  # Temperatura Final
 dT = 0.05                # Delta da temperatura
@@ -15,20 +15,18 @@ TRANS = 1           # Final do Transiente
 CR = 0                 # Numero de medidas de Correlação espacial
 
 hksis = np.loadtxt(sys.argv[1]+f'HK-L-{L}-TI-{TI:.2f}-TF-{TF:.2f}-dT-{dT:.2f}-STEPS-{STEPS}-RND-{RND}-TRANS-{TRANS}.dat', unpack=True)
-sis = np.loadtxt(sys.argv[1]+  f'ci-L-{L}-TI-{TI:.2f}-TF-{TF:.2f}-dT-{dT:.2f}-STEPS-{STEPS}-RND-{RND}-TRANS-{TRANS}.dat', unpack=True)
+sis = np.loadtxt(sys.argv[1]+f'snap-L-{L}-TI-{TI:.2f}-TF-{TF:.2f}-dT-{dT:.2f}-STEPS-{STEPS}-RND-{RND}-TRANS-{TRANS}.dat', unpack=True)
+cls = np.loadtxt(sys.argv[1]+ f'CLS-L-{L}-TI-{TI:.2f}-TF-{TF:.2f}-dT-{dT:.2f}-STEPS-{STEPS}-RND-{RND}-TRANS-{TRANS}.dat', unpack=True)
+
+print(sum(cls))
 
 vmax = max(hksis)
 vmin = 0
 
-#hksis = np.arange(0, 100)
-
 hksis = np.asarray(hksis[:-1].reshape((L, L)), dtype='int16')
 sis = np.asarray(sis.reshape((L, L)), dtype='int16')
 
-print(hksis)
-print(sis)
-
-fig, axes= plt.subplots(2, 1, figsize=(4, 8), layout='constrained')
+fig, axes= plt.subplots(1, 2, figsize=(8, 4), layout='constrained')
 
 im0 = axes[0].imshow(hksis, origin='upper', vmin=0, vmax=vmax)
 axes[0].invert_xaxis()

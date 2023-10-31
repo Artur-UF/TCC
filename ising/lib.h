@@ -25,7 +25,7 @@ double corrtemp(int *s0, int *st, double m0, double mt, int n);
 
 void corresp(double *cr, int *s, int **viz, int n, int l, double m);
 
-void hoshenkopelman(int *sis, int **viz, int *hk, int N);
+void hoshenkopelman(int *sis, int **viz, int *hk, int *hksize, int N);
 
 void unionfind(int i, int j, int *hk, int **viz);
 
