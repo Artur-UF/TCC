@@ -18,7 +18,8 @@ hksis = np.loadtxt(sys.argv[1]+f'HK-L-{L}-TI-{TI:.2f}-TF-{TF:.2f}-dT-{dT:.2f}-ST
 sis = np.loadtxt(sys.argv[1]+f'snap-L-{L}-TI-{TI:.2f}-TF-{TF:.2f}-dT-{dT:.2f}-STEPS-{STEPS}-RND-{RND}-TRANS-{TRANS}.dat', unpack=True)
 cls = np.loadtxt(sys.argv[1]+ f'CLS-L-{L}-TI-{TI:.2f}-TF-{TF:.2f}-dT-{dT:.2f}-STEPS-{STEPS}-RND-{RND}-TRANS-{TRANS}.dat', unpack=True)
 
-print(sum(cls))
+print(sis)
+print(cls)
 
 vmax = max(hksis)
 vmin = 0
