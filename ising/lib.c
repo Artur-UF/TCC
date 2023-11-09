@@ -1,12 +1,12 @@
 /*
-Biblioteca com funções uteis para Monte Carlo e Modelo de Ising-2D
+Library with usefull functions for Monte Carlo and Ising-2D
 */
 #include"lib.h"
 
 double uniform(double min, double max) {
     /*
-    Função que gera um número aleatório em uma distribuição uniforme
-    Para int: [min, max)
+    Function that generates a random number with a uniform distribution
+    For int: [min, max)
     */
     double random  = ((double) rand()) / RAND_MAX;
     double range = (max - min) * random;
@@ -16,10 +16,10 @@ double uniform(double min, double max) {
 }
 
 int **vizinhos(int l){
-    int n = l*l;
+    int N = L*L;
     int **mtzviz = (int **)malloc(n*sizeof(int*));
-    for(int ni = 0; ni < n; ++ni){
-        mtzviz[ni] = (int *)malloc(4*sizeof(int));
+    for(int n = 0; n < N; ++n){
+        mtzviz[n] = (int *)malloc(4*sizeof(int));
     }
     /*
     mtzviz[0] - right
@@ -28,19 +28,19 @@ int **vizinhos(int l){
     mtzviz[3] - down
     */
 
-    for(int i = 0; i < n; ++i){  
+    for(int i = 0; i < N; ++i){  
         // ultima coluna, deslocamos  L-1
-        if(i%l == l-1) mtzviz[i][0] = i + 1 - l;
+        if(i%L == L-1) mtzviz[i][0] = i + 1 - L;
         else mtzviz[i][0] = i + 1;
         // primeira coluna, somamos L-1
-        if(i%l == 0) mtzviz[i][2] = i - 1 + l;
+        if(i%L == 0) mtzviz[i][2] = i - 1 + L;
         else mtzviz[i][2] = i - 1;
         // primeira linha, somamos N-L
-        if(i<l) mtzviz[i][1] = i - l + n;
-        else mtzviz[i][1] = i - l;
+        if(i<L) mtzviz[i][1] = i - L + N;
+        else mtzviz[i][1] = i - L;
         // ultima linha, modulo L
-        if(i>=n-l) mtzviz[i][3] = (i % l);
-        else mtzviz[i][3] = i + l;
+        if(i>=N-L) mtzviz[i][3] = (i % L);
+        else mtzviz[i][3] = i + L;
     }
     
     return mtzviz;
@@ -63,55 +63,55 @@ void metropolis(int *sis, int **viz, double *E, double *expBeta, int J, int j){
     }
 }
 
-int energia(int *sis, int **viz, int n, int j){
+int energia(int *sis, int **viz, int N, int j){
     /*
     Mesures the energy of the system
     */
     int en = 0;
-    for(int i = 0; i < n; ++i) en += sis[i]*(sis[viz[i][0]] + sis[viz[i][3]]);
+    for(int i = 0; i < N; ++i) en += sis[i]*(sis[viz[i][0]] + sis[viz[i][3]]);
     return -j*en;
 }
 
-double magnetizacao(int *sis, int n){
+double magnetizacao(int *sis, int N){
     /*
     Mesures the magnetization of the system
     */
     double m = 0;
-    for(int i = 0; i < n; ++i) m += sis[i];
-    return m/n;
+    for(int i = 0; i < N; ++i) m += sis[i];
+    return m/N;
 }
 
-double corrtemp(int *s0, int *st, double m0, double mt, int n){
+double corrtemp(int *s0, int *st, double m0, double mt, int N){
     /*
     Mesures the time correlation of the system
     */
     double C = 0;
-    for(int i = 0; i < n; ++i){
+    for(int i = 0; i < N; ++i){
         C += s0[i]*st[i];
     }
-    C /= n;
+    C /= N;
     C -= m0*mt;
     return C;
 }
 
-void corresp(double *crr, int *s, int **viz, int n, int l, double m){
+void corresp(double *crr, int *s, int **viz, int N, int L, double m){
     /*
     Mesures the espacial correlation of the  system
     */
     double c = 0;
     int vv, vh;
-    for(int i = 0; i < n; ++i){
+    for(int i = 0; i < N; ++i){
         vv = viz[i][3];
         vh = viz[i][0];
-        for(int li = 0; li < l/2; ++li){
+        for(int l = 0; l < L/2; ++l){
             c = s[i]*(s[vh] + s[vv]);
             vv = viz[vv][3];
             vh = viz[vh][0];
-            crr[li] += c; 
+            crr[l] += c; 
         }
     }
-    for(int li = 0; li < l/2; ++li){
-        crr[li] /= 2*n;
+    for(int l = 0; l < L/2; ++l){
+        crr[l] /= 2*N;
         //crr[l] -= m*m;
     }
 }
@@ -176,47 +176,3 @@ changes all of them
 }
 
 
-
-
-/*void hoshenkopelman(int **viz, int *sis, int *hksis, int l){
-    // Rotula clusters de spins +1 e -1
-    int n = l*l;
-    int labeli, labelf, newlabel = 0;
-
-    for(int i = 0; i < n; ++i){
-        // Se somente o vizinho de cima pode compartilhar cluster
-        if(sis[i] == sis[viz[i][1]] && sis[i] != sis[viz[i][2]]){
-            hksis[i] = (hksis[viz[i][1]] != 0) ? hksis[viz[i][1]] : ++newlabel;           
-        }
-
-        // Se somente o vizinho da esquerda pode compartilhar cluster
-        if(sis[i] != sis[viz[i][1]] && sis[i] == sis[viz[i][2]]){
-            hksis[i] = (hksis[viz[i][2]] != 0) ? hksis[viz[i][2]] : ++newlabel;           
-        }
-
-        // Se nenhum vizinho pode compartilhar cluster
-        if(sis[i] != sis[viz[i][1]] && sis[i] == sis[viz[i][2]]) hksis[i] = ++newlabel;
-        
-        // Se ambos vizinhos podem ocupar o mesmo cluster
-        if(sis[i] == sis[viz[i][1]] && sis[i] == sis[viz[i][2]]){
-            // Se os dois vizinhos tem label igual
-            if(hksis[viz[i][1]] == hksis[viz[i][2]] && hksis[viz[i][1]] != 0) hksis[i] = hksis[viz[i][1]];
-    
-            // Se os dois vizinhos tem label diferente
-            if(hksis[viz[i][1]] != hksis[viz[i][2]] && hksis[viz[i][1]] != 0 && hksis[viz[i][2]] != 0){
-                labeli = (hksis[viz[i][1]] < hksis[viz[i][2]]) ? hksis[viz[i][1]] : hksis[viz[i][2]];
-                labelf = (hksis[viz[i][1]] > hksis[viz[i][2]]) ? hksis[viz[i][2]] : hksis[viz[i][1]];
-                for(int j = 0; j < i; ++j) if(hksis[j] == labeli) hksis[j] = labelf;
-            }
-
-            // Se somente o vizinho de cima tem label
-            if(hksis[viz[i][1]] != 0 && hksis[viz[i][2]] == 0) hksis[i] = hksis[viz[i][1]];
-
-            // Se somente o vizinho da esquerda tem label
-            if(hksis[viz[i][1]] == 0 && hksis[viz[i][2]] != 0) hksis[i] = hksis[viz[i][2]];
-
-            // Se nenhum vizinho tem label
-            if(hksis[viz[i][1]] == 0 && hksis[viz[i][2]] == 0) hksis[i] = ++newlabel;
-        }
-    }
-}*/
