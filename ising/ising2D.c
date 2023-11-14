@@ -13,17 +13,17 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 */
 #include "lib.h"
 
-#define PASTA "teste"         // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define PASTA "teste-ntc"         // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 324333          // Define a Seed: se 0 pega do relogio do sistema
 #define L 50             // Aresta da Rede
-#define STEPS 100         // Número de MCS no equilíbrio
+#define STEPS 10000         // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
-#define TI 2.            // Temperatura inicial
-#define TF 2.           // Temperatua final
+#define TI 2.269            // Temperatura inicial
+#define TF 2.269           // Temperatua final
 #define dT 0.05            // Delta T
-#define TRANS 1         // Número de MCS para jogar fora (transiente)
+#define TRANS 1000         // Número de MCS para jogar fora (transiente)
 #define CR 0            // Gravar a Correlação espacial
 #define HK 1            // Identificar clusters: 0 não mede | # > 0 mede # vezes seguidas
 #define SNAP 1          // Takes a snapshot of the moment

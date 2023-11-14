@@ -15,9 +15,9 @@ double uniform(double min, double max) {
     return n;
 }
 
-int **vizinhos(int l){
+int **vizinhos(int L){
     int N = L*L;
-    int **mtzviz = (int **)malloc(n*sizeof(int*));
+    int **mtzviz = (int **)malloc(N*sizeof(int*));
     for(int n = 0; n < N; ++n){
         mtzviz[n] = (int *)malloc(4*sizeof(int));
     }

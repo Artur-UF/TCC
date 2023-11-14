@@ -4,14 +4,14 @@ import sys
 
 
 L = 50           # Aresta da rede
-STEPS = 100              # Número de MCS
+STEPS = 10000              # Número de MCS
 RND = 1                 # Condição inicial dos spins
 IMG = 0                 # Gravar estados
 CI  = 0                 # Gravar condição inicial
-TI = 2.                  # Temperatura Inicial
-TF = 2.                  # Temperatura Final
+TI = 2.269                  # Temperatura Inicial
+TF = 2.269                  # Temperatura Final
 dT = 0.05                # Delta da temperatura
-TRANS = 1           # Final do Transiente 
+TRANS = 1000           # Final do Transiente 
 CR = 0                 # Numero de medidas de Correlação espacial
 
 hksis = np.loadtxt(sys.argv[1]+f'HK-L-{L}-TI-{TI:.2f}-TF-{TF:.2f}-dT-{dT:.2f}-STEPS-{STEPS}-RND-{RND}-TRANS-{TRANS}.dat', unpack=True)
