@@ -30,4 +30,6 @@ void hoshenkopelman(int *sis, int **viz, int *hk, int *hksize, int N);
 void unionfind(int i, int j, int *hk, int **viz);
 
 void recurlabel(int *hk, int **viz, int i, int labeli, int labelf);
+
+int Hg(int *hksize, int *hg, int N);
 #endif

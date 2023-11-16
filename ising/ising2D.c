@@ -13,19 +13,19 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 */
 #include "lib.h"
 
-#define PASTA "teste-ntc"         // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define PASTA "teste-hg"         // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 324333          // Define a Seed: se 0 pega do relogio do sistema
 #define L 50             // Aresta da Rede
-#define STEPS 10000         // Número de MCS no equilíbrio
+#define STEPS 1000         // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
-#define TI 2.269            // Temperatura inicial
-#define TF 2.269           // Temperatua final
+#define TI 2.            // Temperatura inicial
+#define TF 2.5           // Temperatua final
 #define dT 0.05            // Delta T
 #define TRANS 1000         // Número de MCS para jogar fora (transiente)
 #define CR 0            // Gravar a Correlação espacial
-#define HK 1            // Identificar clusters: 0 não mede | # > 0 mede # vezes seguidas
+#define HK 1            // Identificar clusters: 0 não mede, 1 mede (todo fim de loop no equilíbrio)
 #define SNAP 1          // Takes a snapshot of the moment
 
 int main(int argc, char *argv[]){
@@ -74,6 +74,7 @@ int main(int argc, char *argv[]){
     defexp(expBeta, beta);
     int *hksis = (int*)calloc(N, sizeof(int));
     int *hksize = (int*)calloc(N, sizeof(int));
+    int *hg = (int*)calloc(N, sizeof(int));
 
     // Aplicando a Condição inicial
     if(RND) for(i = 0; i < N; ++i) sis[i] = (uniform(0., 1.) < .5) ? -1 : 1;
@@ -82,62 +83,8 @@ int main(int argc, char *argv[]){
     if(CI) for(i = 0; i < N; ++i) fprintf(ci, "%d\n", sis[i]);  
 
     // Loop para passar pelo transiente
-    E = (double) energia(sis, viz, N, 1);
-    for(s = 0; s < TRANS; ++s){ //Loop sobre passos de Monte Carlo
-        //MCS
-        for(j = 0; j < N; ++j){
-            metropolis(sis, viz, &E, expBeta, J, j);
-        }
-        // se quiser gravar o transiente vc faria aqui
-    }
-    // Fim do loop transiente
-
-    // Definindo s(t=0) e m(t=0)
-    if(s == TRANS){
-        for(i = 0; i < N; ++i) s0[i] = sis[i];
-        m0 = magnetizacao(sis, N);
-    }
-
-    // Loop sobre o estado estacionário
     t = 0;
     for(int temp = 0; temp <= nT; ++temp){      // Loop de temperaturas
-        for(s = 0; s < STEPS; ++s){             // Roda STEPS de MCS
-            //MCS
-            for(j = 0; j < N; ++j){
-                metropolis(sis, viz, &E, expBeta, J, j);
-            }
-            t++;
-            //Fim do MCS
-    
-            // Imagens para fazer o gif
-            if(IMG){
-                for(i = 0; i < N; ++i) fprintf(img, "%d\n", sis[i]);
-                fprintf(img, "-2\n");
-            }
-
-            // Medidas
-            mt = magnetizacao(sis, N);
-            fprintf(medidas, "%d\t%lf\t%lf\t%lf\n", t, E/N, mt, corrtemp(s0, sis, m0, mt, N));
-            if(nhk < HK){
-                if(SNAP != 0) for(int i = 0; i < N; ++i) fprintf(snap, "%d\n", sis[i]);
-                hoshenkopelman(sis, viz, hksis, hksize, N);
-                for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
-                for(int i = 0; i < N; ++i) fprintf(cls, "%d\n", hksize[i]);
-                fprintf(hk, "-1\n");
-                nhk++;
-
-            }
-            if((CR > 0) && (ncr < CR) && (s%stepcr == 0)){
-                corresp(crr, sis, viz, N, L, mt);
-                for(int l  = 0; l < L/2; ++l) fprintf(cr, "%d\t%lf\n", l+1, crr[l]);
-                fprintf(cr, "-1\t-1\n"); // tu podia usar a seed como separador pra garantir
-                memset(crr, 0, (L/2)*sizeof(double));
-                ncr++;
-            }
-        }
-        beta = 1./T[temp];
-        defexp(expBeta, beta);
-
         // Loop para passar pelo transiente
         E = (double) energia(sis, viz, N, 1);
         for(s = 0; s < TRANS; ++s){ //Loop sobre passos de Monte Carlo
@@ -154,7 +101,47 @@ int main(int argc, char *argv[]){
             for(i = 0; i < N; ++i) s0[i] = sis[i];
             m0 = magnetizacao(sis, N);
         }
+
+        // Roda STEPS de MCS no equilíbrio
+        for(s = 0; s < STEPS; ++s){
+            //MCS
+            for(j = 0; j < N; ++j){
+                metropolis(sis, viz, &E, expBeta, J, j);
+            }
+            t++;
+            //Fim do MCS
+    
+            // Imagens para fazer o gif
+            if(IMG){
+                for(i = 0; i < N; ++i) fprintf(img, "%d\n", sis[i]);
+                fprintf(img, "-2\n");
+            }
+
+            // Medidas
+            mt = magnetizacao(sis, N);
+            fprintf(medidas, "%d\t%lf\t%lf\t%lf\n", t, E/N, mt, corrtemp(s0, sis, m0, mt, N));
+            if((CR > 0) && (ncr < CR) && (s%stepcr == 0)){
+                corresp(crr, sis, viz, N, L, mt);
+                for(int l  = 0; l < L/2; ++l) fprintf(cr, "%d\t%lf\n", l+1, crr[l]);
+                fprintf(cr, "-1\t-1\n"); // tu podia usar a seed como separador pra garantir
+                memset(crr, 0, (L/2)*sizeof(double));
+                ncr++;
+            }
+        }
+        if(HK){
+            if(SNAP){
+                for(int i = 0; i < N; ++i) fprintf(snap, "%d\n", sis[i]);
+                fprintf(snap, "-2\n");
+            }
+            hoshenkopelman(sis, viz, hksis, hksize, N);
+            fprintf(hk, "-%d\n", Hg(hksize, hg, N));
+            for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
+            for(int i = 0; i < N; ++i) fprintf(cls, "%d\n", hksize[i]);
+        }
+        beta = 1./T[temp];
+        defexp(expBeta, beta);
     }
+    printf("Oi 3 \n");
     //_________________________________FIM DA SIMULAÇÃO_____________________________________________ 
     fprintf(medidas, "-1\t-1\t-1\t-1\n"); 
 

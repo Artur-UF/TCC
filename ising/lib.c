@@ -175,4 +175,22 @@ changes all of them
     hk[i] = labelf;
 }
 
+int Hg(int *hksize, int *hg, int N){
+/*
+Counts the number of different domain-sizes of clusters
+*/
+    for(int i = 0; i < N; ++i){
+        if(hksize[i] > 0) hg[hksize[i]] = 1;
+    }
+
+    int Hg = 0;
+    for(int i = 0; i < N; ++i) Hg += hg[i];
+    memset(hg, 0, N*sizeof(int));
+    return Hg;
+}
+
+
+
+
+
 
