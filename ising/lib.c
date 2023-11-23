@@ -116,39 +116,27 @@ void corresp(double *crr, int *s, int **viz, int N, int L, double m){
     }
 }
 
-
 void hoshenkopelman(int *sis, int **viz, int *hk, int *hksize, int N){
     // First assignment of values
-    for(int i = 0; i < N; ++i){
-        hk[i] = i;
-    }
+    for(int i = 0; i < N; ++i) hk[i] = i;
 
     // Union of clusters
     for(int i = 0; i < N; ++i){
         if(sis[i] == sis[viz[i][1]]) unionfind(i, viz[i][1], hk, viz);
         if(sis[i] == sis[viz[i][2]]) unionfind(i, viz[i][2], hk, viz);
     }
-
     // Mesure size of clusters
-    for(int i = 0; i < N; ++i){
-        hksize[hk[i]] += 1;
-    }
+    for(int i = 0; i < N; ++i) hksize[hk[i]] += 1;
 }
-
 
 void unionfind(int i, int j, int *hk, int **viz){
 /*
 Decides wich label to use and then calls a recursive function
 to change the label
 */
-    if(hk[i] > hk[j]){
-        recurlabel(hk, viz, i, hk[i], hk[j]);
-    }
-    if(hk[i] < hk[j]){
-        recurlabel(hk, viz, j, hk[j], hk[i]);       
-    }
+    if(hk[i] > hk[j]) recurlabel(hk, viz, i, hk[i], hk[j]);
+    if(hk[i] < hk[j]) recurlabel(hk, viz, j, hk[j], hk[i]);
 }
-
 
 void recurlabel(int *hk, int **viz, int i, int labeli, int labelf){
 /*
@@ -179,13 +167,15 @@ int Hg(int *hksize, int *hg, int N){
 /*
 Counts the number of different domain-sizes of clusters
 */
-    for(int i = 0; i < N; ++i){
-        if(hksize[i] > 0) hg[hksize[i]] = 1;
-    }
-
     int Hg = 0;
-    for(int i = 0; i < N; ++i) Hg += hg[i];
-    memset(hg, 0, N*sizeof(int));
+    for(int i = 0; i < N; ++i){
+        if(hksize[i] > 0 && hg[hksize[i]] == 0){ //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< POR ALGUM MOTIVO ELE TA DANDO PAU AO ACESSAR O HG
+            printf("hksize[%d] = %d | hg[%d] = %d\n", i, hksize[i], hksize[i], hg[hksize[i]]);
+            hg[hksize[i]] = 1;
+            Hg++;
+        }
+    }
+    memset(hg, 0, N*sizeof(*hg));
     return Hg;
 }
 
