@@ -126,6 +126,7 @@ void hoshenkopelman(int *sis, int **viz, int *hk, int *hksize, int N){
         if(sis[i] == sis[viz[i][2]]) unionfind(i, viz[i][2], hk, viz);
     }
     // Mesure size of clusters
+    memset(hksize, 0, N*sizeof(*hksize));
     for(int i = 0; i < N; ++i) hksize[hk[i]] += 1;
 }
 
@@ -169,8 +170,7 @@ Counts the number of different domain-sizes of clusters
 */
     int Hg = 0;
     for(int i = 0; i < N; ++i){
-        if(hksize[i] > 0 && hg[hksize[i]] == 0){ //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< POR ALGUM MOTIVO ELE TA DANDO PAU AO ACESSAR O HG
-            printf("hksize[%d] = %d | hg[%d] = %d\n", i, hksize[i], hksize[i], hg[hksize[i]]);
+        if(hksize[i] > 0 && hg[hksize[i]] == 0){ 
             hg[hksize[i]] = 1;
             Hg++;
         }

@@ -8,6 +8,9 @@ As medidas que podem ser feitas nessa versão são:
 - Correlação Temporal
 - Correlação Espacial
 - Identificação de clusters
+- Geometric domain-size heterogeneity
+
+gcc ising2D.c lib.c -O3 -lm
 
 ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 */
@@ -16,27 +19,31 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 #define PASTA "samples" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
 #define L 100           // Aresta da Rede
-#define STEPS 1000      // Número de MCS no equilíbrio
+#define STEPS 10000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
-#define TI 1.           // Temperatura inicial
-#define TF 10.          // Temperatua final
+#define TI 2.269        // Temperatura inicial
+#define TF 2.269        // Temperatua final
 #define dT 0.5          // Delta T
-#define TRANS 1000      // Número de MCS para jogar fora (transiente)
+#define TRANS 1      // Número de MCS para jogar fora (transiente)
 #define CR 0            // Gravar a Correlação espacial
-#define HK 1            // Identificar clusters: 0 não mede, 1 mede (todo fim de loop no equilíbrio)
+#define HK 0            // Identificar clusters: 0 não mede, 1 mede (todo fim de loop no equilíbrio)
 #define SNAP 0          // Takes a snapshot of the moment
 #define CLS 0           // Saves the size of each cluster
 
 
 int main(int argc, char *argv[]){
-    int seed = (SEED == 0) ? time(NULL) : SEED ;
-    if(SEED%2 == 0) seed++; 
+    int seed;
+    if(SEED == 0){
+        seed = time(NULL);
+        if(seed%2 == 0) seed++;
+    }
+    else seed = SEED; 
 
     // Opennig output files
     int ok = 0;
-    char shared[70], saida1[100], saida2[100], saida3[100], saida4[100], saida5[100], saida6[100], saida7[100];
+    char shared[70], saida1[150], saida2[150], saida3[150], saida4[150], saida5[150], saida6[150], saida7[150];
     sprintf(shared, "L_%d_TI_%.2lf_TF_%.2lf_dT_%.2lf_STEPS_%d_RND_%d_TRANS_%d", L, TI, TF, dT, STEPS, RND, TRANS);
 
     FILE *medidas;
@@ -75,7 +82,7 @@ int main(int argc, char *argv[]){
     // Definição de temperatura(s)
     int nT;
     if(TI == TF) nT = 1;
-    else nT = (int)((TF-TI)/dT);
+    else nT = (int)ceil((((TF+dT)-TI)/dT));
     double T[nT];
     T[0] = TI;
     if(nT > 1) for(int t = 1; t <= nT; ++t) T[t] = T[t-1] + dT;
@@ -86,9 +93,8 @@ int main(int argc, char *argv[]){
     int *s0 = (int*)calloc(N, sizeof(int));
     double *crr = (double*)calloc(L/2, sizeof(double));
     double *expBeta = (double*)calloc(3, sizeof(int));
-    //defexp(expBeta, beta);
     int *hksis = (int*)calloc(N, sizeof(int));
-    int *hksize = (int*)calloc(N, sizeof(int));
+    int *hksize = (int*)malloc(N*sizeof(int));
     int *hg = (int*)calloc(N, sizeof(int));
 
     // Aplicando a Condição inicial
@@ -99,7 +105,7 @@ int main(int argc, char *argv[]){
 
     // Loop para passar pelo transiente
     t = 0;
-    for(int temp = 0; temp <= nT; ++temp){      // Loop de temperaturas
+    for(int temp = 0; temp < nT; ++temp){      // Loop de temperaturas
         beta = 1./T[temp];
         defexp(expBeta, beta);
 
