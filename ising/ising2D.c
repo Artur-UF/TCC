@@ -19,16 +19,16 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 #define PASTA "samples" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
 #define L 100           // Aresta da Rede
-#define STEPS 10000      // Número de MCS no equilíbrio
+#define STEPS 1000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
-#define TI 2.269        // Temperatura inicial
-#define TF 2.269        // Temperatua final
+#define TI 1.        // Temperatura inicial
+#define TF 10.        // Temperatua final
 #define dT 0.5          // Delta T
-#define TRANS 1      // Número de MCS para jogar fora (transiente)
+#define TRANS 5000      // Número de MCS para jogar fora (transiente)
 #define CR 0            // Gravar a Correlação espacial
-#define HK 0            // Identificar clusters: 0 não mede, 1 mede (todo fim de loop no equilíbrio)
+#define HK 1            // Identificar clusters: 0 não mede, 1 mede (todo fim de loop no equilíbrio)
 #define SNAP 0          // Takes a snapshot of the moment
 #define CLS 0           // Saves the size of each cluster
 
@@ -56,6 +56,8 @@ int main(int argc, char *argv[]){
         }
         else ok = 1;
     }while(ok == 0);
+
+    // Fazer o arquivo de infos que recebe append
 
     sprintf(saida2,      "%s/im_%s_%d.dat", PASTA, shared, seed);
     sprintf(saida3,      "%s/ci_%s_%d.dat", PASTA, shared, seed);
@@ -103,7 +105,9 @@ int main(int argc, char *argv[]){
     
     if(CI) for(i = 0; i < N; ++i) fprintf(ci, "%d\n", sis[i]);  
 
-    // Loop para passar pelo transiente
+    // Simulação
+    clock_t tic = clock();
+
     t = 0;
     for(int temp = 0; temp < nT; ++temp){      // Loop de temperaturas
         beta = 1./T[temp];
@@ -147,7 +151,7 @@ int main(int argc, char *argv[]){
             if((CR > 0) && (ncr < CR) && (s%stepcr == 0)){
                 corresp(crr, sis, viz, N, L, mt);
                 for(int l  = 0; l < L/2; ++l) fprintf(cr, "%d\t%lf\n", l+1, crr[l]);
-                fprintf(cr, "-1\t-1\n"); // tu podia usar a seed como separador pra garantir
+                fprintf(cr, "-1\t-1\n");
                 memset(crr, 0, (L/2)*sizeof(double));
                 ncr++;
             }
@@ -168,6 +172,10 @@ int main(int argc, char *argv[]){
         printf("Temp: %.2lf\n", T[temp]);
     }
     printf("\n");
+    clock_t toc = clock();
+    double time = (double)(toc-tic)/CLOCKS_PER_SEC;
+    printf("Tempo de Execução: %.3lf\n", time);
+
     //_________________________________FIM DA SIMULAÇÃO_____________________________________________ 
     fprintf(medidas, "-1\t-1\t-1\t-1\n"); 
 

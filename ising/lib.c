@@ -3,6 +3,25 @@ Library with usefull functions for Monte Carlo and Ising-2D
 */
 #include"lib.h"
 
+double *range(double i, double f, double o, int flag){
+/*
+Creates an array of doubles between [i, f].
+flag = 1: 'o' means number of steps
+flag = 0: 'o' means step size
+*/
+    int n;
+    double l;
+
+    if(flag){
+        n = (int) o;
+        l = (f-i)/n;
+    }else{
+        l = o;
+        n = ((f-i)/l) + 1;
+    }
+}
+
+
 double uniform(double min, double max) {
     /*
     Function that generates a random number with a uniform distribution
