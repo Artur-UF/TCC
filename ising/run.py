@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import os
 
 os.system('gcc ising2D.c lib.c -O3 -lm\n')

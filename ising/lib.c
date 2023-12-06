@@ -3,24 +3,18 @@ Library with usefull functions for Monte Carlo and Ising-2D
 */
 #include"lib.h"
 
-double *range(double i, double f, double o, int flag){
+double *arange(double i, double f, double s){
 /*
-Creates an array of doubles between [i, f].
-flag = 1: 'o' means number of steps
-flag = 0: 'o' means step size
+Creates an array of size: ceil((f-i)/s) with 's' as step size
 */
-    int n;
-    double l;
-
-    if(flag){
-        n = (int) o;
-        l = (f-i)/n;
-    }else{
-        l = o;
-        n = ((f-i)/l) + 1;
+    int n = ceil((f-i)/s);
+    double *array = (double*)malloc(n*sizeof(double));
+    for(int ni = 0; ni < n; ni++){
+        array[ni] = i;
+        i += s;
     }
+    return array;
 }
-
 
 double uniform(double min, double max) {
     /*

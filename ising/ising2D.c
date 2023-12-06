@@ -43,7 +43,7 @@ int main(int argc, char *argv[]){
 
     // Opennig output files
     int ok = 0;
-    char shared[70], saida1[150], saida2[150], saida3[150], saida4[150], saida5[150], saida6[150], saida7[150];
+    char arkinfo[50], shared[70], saida1[150], saida2[150], saida3[150], saida4[150], saida5[150], saida6[150], saida7[150];
     sprintf(shared, "L_%d_TI_%.2lf_TF_%.2lf_dT_%.2lf_STEPS_%d_RND_%d_TRANS_%d", L, TI, TF, dT, STEPS, RND, TRANS);
 
     FILE *medidas;
@@ -59,6 +59,7 @@ int main(int argc, char *argv[]){
 
     // Fazer o arquivo de infos que recebe append
 
+    sprintf(arkinfo, "%s/info.txt", PASTA);
     sprintf(saida2,      "%s/im_%s_%d.dat", PASTA, shared, seed);
     sprintf(saida3,      "%s/ci_%s_%d.dat", PASTA, shared, seed);
     sprintf(saida4,      "%s/CR_%s_%d.dat", PASTA, shared, seed);
@@ -73,6 +74,8 @@ int main(int argc, char *argv[]){
     FILE *hk = fopen(saida5, "w");
     FILE *cls = fopen(saida6, "w");
     FILE *snap = fopen(saida7, "w");
+
+    FILE *info = fopen(arkinfo, "a");
 
     srand(seed);
     //__________________________________SIMULAÇÃO______________________________________________________________
@@ -169,16 +172,25 @@ int main(int argc, char *argv[]){
             // Saves the size of each cluster
             if(CLS) for(int i = 0; i < N; ++i) if(hksize[i] > 0) fprintf(cls, "%d %d\n", i, hksize[i]);
         }
-        printf("Temp: %.2lf\n", T[temp]);
     }
-    printf("\n");
     clock_t toc = clock();
     double time = (double)(toc-tic)/CLOCKS_PER_SEC;
-    printf("Tempo de Execução: %.3lf\n", time);
 
     //_________________________________FIM DA SIMULAÇÃO_____________________________________________ 
     fprintf(medidas, "-1\t-1\t-1\t-1\n"); 
 
+    fprintf(info, "-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*\n");
+    fprintf(info,    "SEED %d\n", seed);
+    fprintf(info,       "L %d\n", L);
+    fprintf(info,   "STEPS %d\n", STEPS);
+    fprintf(info,     "RND %d\n", RND);
+    fprintf(info,     "TI %lf\n", TI);
+    fprintf(info,     "TF %lf\n", TF);
+    fprintf(info,     "dT %lf\n", dT);
+    fprintf(info, "TRANS %d\n\n", TRANS);
+    fprintf(info, "Execution time: %lf s | %lf min\n", time, time/60.);
+ 
+    fclose(info); 
     fclose(medidas);
     fclose(img);
     fclose(ci);
