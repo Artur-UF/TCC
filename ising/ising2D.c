@@ -16,9 +16,9 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 */
 #include "lib.h"
 
-#define PASTA "samples" // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define PASTA "samples_L_150" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
-#define L 100           // Aresta da Rede
+#define L 150           // Aresta da Rede
 #define STEPS 1000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
@@ -85,12 +85,8 @@ int main(int argc, char *argv[]){
     int stepcr = (CR <= 0) ? STEPS : STEPS/CR;      //Espaçamento entre medidas de C(r) 
 
     // Definição de temperatura(s)
-    int nT;
-    if(TI == TF) nT = 1;
-    else nT = (int)ceil((((TF+dT)-TI)/dT));
-    double T[nT];
-    T[0] = TI;
-    if(nT > 1) for(int t = 1; t <= nT; ++t) T[t] = T[t-1] + dT;
+    int nT = ceil((TF-TI)/dT);
+    double *T = arange(TI, TF+dT, dT);
 
     // Criando matriz e vetores necessários
     int **viz = vizinhos(L);
@@ -112,10 +108,9 @@ int main(int argc, char *argv[]){
     clock_t tic = clock();
 
     t = 0;
-    for(int temp = 0; temp < nT; ++temp){      // Loop de temperaturas
+    for(int temp = 0; temp <= nT; ++temp){      // Loop de temperaturas
         beta = 1./T[temp];
         defexp(expBeta, beta);
-
         // Loop para passar pelo transiente
         E = (double) energia(sis, viz, N, 1);
         for(s = 0; s < TRANS; ++s){ //Loop sobre passos de Monte Carlo

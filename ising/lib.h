@@ -11,6 +11,8 @@
 
 int **vizinhos(int L);
 
+double *arange(double i, double f, double s);
+
 void defexp(double *expBeta, double beta); 
 
 void metropolis(int *sis, int **viz, double *E, double *beta, int J, int j);
