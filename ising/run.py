@@ -7,4 +7,3 @@ for i in range(10):
     os.system('./a.out\n')
 print()
 
-

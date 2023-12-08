@@ -16,9 +16,9 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 */
 #include "lib.h"
 
-#define PASTA "samples_L_150" // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define PASTA "samples_L_320" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
-#define L 150           // Aresta da Rede
+#define L 320           // Aresta da Rede
 #define STEPS 1000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
@@ -28,7 +28,7 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 #define dT 0.5          // Delta T
 #define TRANS 5000      // Número de MCS para jogar fora (transiente)
 #define CR 0            // Gravar a Correlação espacial
-#define HK 1            // Identificar clusters: 0 não mede, 1 mede (todo fim de loop no equilíbrio)
+#define HK 2            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
 #define SNAP 0          // Takes a snapshot of the moment
 #define CLS 0           // Saves the size of each cluster
 
@@ -154,7 +154,7 @@ int main(int argc, char *argv[]){
                 ncr++;
             }
         }
-        if(HK){
+        if(HK > 0){
             // Saves a snapshot of the system 
             if(SNAP){
                 for(int i = 0; i < N; ++i) fprintf(snap, "%d\n", sis[i]);
@@ -163,7 +163,7 @@ int main(int argc, char *argv[]){
             hoshenkopelman(sis, viz, hksis, hksize, N);
             // Saves the Hg and the system with labeled clusters
             fprintf(hk, "# %d\n", Hg(hksize, hg, N));
-            for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
+            if(HK == 1) for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
             // Saves the size of each cluster
             if(CLS) for(int i = 0; i < N; ++i) if(hksize[i] > 0) fprintf(cls, "%d %d\n", i, hksize[i]);
         }
