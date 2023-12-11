@@ -1,0 +1,4 @@
+
+Program received signal SIGSEGV, Segmentation fault.
+0x00005555555560c0 in recurlabel (hk=hk@entry=0x7ffff75bd010, viz=viz@entry=0x7ffff78df010, i=213809, labeli=labeli@entry=5, labelf=labelf@entry=0) at lib.c:155
+155	void recurlabel(int *hk, int **viz, int i, int labeli, int labelf){

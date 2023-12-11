@@ -8,6 +8,10 @@ int main(){
     double i = 1., f = 1., s = 0.5;
     int n = ceil((f-i)/s);
 
+    int oi[5] = {1, 2, 3, 4, 5};
+
+    printf("%d\n", oi[90000]);
+
     double *array = arange(i, f+s, s);
 
     for(int i = 0; i <= n; ++i) printf("%lf\n", array[i]);

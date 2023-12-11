@@ -13,12 +13,21 @@ As medidas que podem ser feitas nessa versão são:
 gcc ising2D.c lib.c -O3 -lm
 
 ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
+
+1702084705 - SEGFAULT em T = 2.0
+1702064765 - SEGFAULT em T = 1.0
+1702069689 - SEGFAULT em T = 1.0
+1702079013 - SEGFAULT em T = 1.5
+1702100969 - SEGFAUÇT em T = 2.0
+1702103491 - SEGFAULT em T = 1.5
+1702107985 - SEGFAULT em T = 2.0
+
 */
 #include "lib.h"
 
-#define PASTA "samples_L_320" // Define o nome da pasta na qual serão guardados os arquivos de saída 
-#define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
-#define L 320           // Aresta da Rede
+#define PASTA "samples_L_640" // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define SEED 1702107985          // Define a Seed: se 0 pega do relogio do sistema
+#define L 640           // Aresta da Rede
 #define STEPS 1000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
@@ -31,7 +40,7 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 #define HK 2            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
 #define SNAP 0          // Takes a snapshot of the moment
 #define CLS 0           // Saves the size of each cluster
-
+#define MES 0
 
 int main(int argc, char *argv[]){
     int seed;
@@ -80,7 +89,7 @@ int main(int argc, char *argv[]){
     srand(seed);
     //__________________________________SIMULAÇÃO______________________________________________________________
 
-    int i, j, s, t, dE, N = L*L, J = 1, nhk = 0, ncr = 0; 
+    int i, j, s, t, N = L*L, J = 1, ncr = 0; 
     double beta, E, m0 = 0, mt = 0;
     int stepcr = (CR <= 0) ? STEPS : STEPS/CR;      //Espaçamento entre medidas de C(r) 
 
@@ -123,7 +132,7 @@ int main(int argc, char *argv[]){
         // Fim do loop transiente
 
         // Definindo s(t=0) e m(t=0)
-        if(s == TRANS){
+        if(s == TRANS && MES > 0){
             for(i = 0; i < N; ++i) s0[i] = sis[i];
             m0 = magnetizacao(sis, N);
         }
@@ -144,14 +153,16 @@ int main(int argc, char *argv[]){
             }
 
             // Medidas
-            mt = magnetizacao(sis, N);
-            fprintf(medidas, "%d\t%lf\t%lf\t%lf\n", t, E/N, mt, corrtemp(s0, sis, m0, mt, N));
-            if((CR > 0) && (ncr < CR) && (s%stepcr == 0)){
-                corresp(crr, sis, viz, N, L, mt);
-                for(int l  = 0; l < L/2; ++l) fprintf(cr, "%d\t%lf\n", l+1, crr[l]);
-                fprintf(cr, "-1\t-1\n");
-                memset(crr, 0, (L/2)*sizeof(double));
-                ncr++;
+            if(MES > 0){
+                mt = magnetizacao(sis, N);
+                fprintf(medidas, "%d\t%lf\t%lf\t%lf\n", t, E/N, mt, corrtemp(s0, sis, m0, mt, N));
+                if((CR > 0) && (ncr < CR) && (s%stepcr == 0)){
+                    corresp(crr, sis, viz, N, L, mt);
+                    for(int l  = 0; l < L/2; ++l) fprintf(cr, "%d\t%lf\n", l+1, crr[l]);
+                    fprintf(cr, "-1\t-1\n");
+                    memset(crr, 0, (L/2)*sizeof(double));
+                    ncr++;
+                }
             }
         }
         if(HK > 0){
@@ -160,7 +171,9 @@ int main(int argc, char *argv[]){
                 for(int i = 0; i < N; ++i) fprintf(snap, "%d\n", sis[i]);
                 fprintf(snap, "-2\n");
             }
+            printf("T = %.2lf\n", T[temp]);
             hoshenkopelman(sis, viz, hksis, hksize, N);
+            printf("Feito\n");
             // Saves the Hg and the system with labeled clusters
             fprintf(hk, "# %d\n", Hg(hksize, hg, N));
             if(HK == 1) for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
@@ -191,6 +204,7 @@ int main(int argc, char *argv[]){
     fclose(ci);
     fclose(cr);
     fclose(hk);
+    if(MES == 0) remove(saida1);
     if(!IMG) remove(saida2);
     if(!CI) remove(saida3);
     if(CR == 0) remove(saida4);
