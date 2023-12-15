@@ -20,3 +20,14 @@ dT 0.500000
 TRANS 5000
 
 Execution time: 65.308341 s | 1.088472 min
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1702107985
+L 160
+STEPS 1000
+RND 1
+TI 1.000000
+TF 10.000000
+dT 0.500000
+TRANS 5000
+
+Execution time: 57.791759 s | 0.963196 min

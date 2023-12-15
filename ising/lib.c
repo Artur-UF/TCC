@@ -135,9 +135,20 @@ void hoshenkopelman(int *sis, int **viz, int *hk, int *hksize, int N){
 
     // Union of clusters
     for(int i = 0; i < N; ++i){
-        if(sis[i] == sis[viz[i][1]]) unionfind(i, viz[i][1], hk, viz);
-        if(sis[i] == sis[viz[i][2]]) unionfind(i, viz[i][2], hk, viz);
+        printf("i = %d\n", i);
+        if(sis[i] == sis[viz[i][1]]){
+            printf("i_up = %d\n", viz[i][1]);
+            unionfind(i, viz[i][1], hk, viz);
+        }
+        if(sis[i] == sis[viz[i][2]]){
+            printf("i_l = %d\n", viz[i][2]);
+            unionfind(i, viz[i][2], hk, viz);
+        }
+        printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
     }
+
+    // DEU SEGFAULT NO i = 408960 quando entrou no viz[i][2]
+
     // Mesure size of clusters
     memset(hksize, 0, N*sizeof(*hksize));
     for(int i = 0; i < N; ++i) hksize[hk[i]] += 1;
@@ -148,6 +159,7 @@ void unionfind(int i, int j, int *hk, int **viz){
 Decides wich label to use and then calls a recursive function
 to change the label
 */
+    
     if(hk[i] > hk[j]) recurlabel(hk, viz, i, hk[i], hk[j]);
     if(hk[i] < hk[j]) recurlabel(hk, viz, j, hk[j], hk[i]);
 }
@@ -157,7 +169,6 @@ void recurlabel(int *hk, int **viz, int i, int labeli, int labelf){
 Searches recursively for more labels of the same value and then finally
 changes all of them
 */
-
     if(-hk[viz[i][0]] == -labeli){
         hk[i] *= -1; 
         recurlabel(hk, viz, viz[i][0], labeli, labelf);

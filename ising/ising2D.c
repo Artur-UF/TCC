@@ -1,5 +1,4 @@
 /*
-
 Esse código performa uma simulação do Modelo de Ising-2D de acordo com os parâmetros definidos
 
 As medidas que podem ser feitas nessa versão são:
@@ -10,7 +9,7 @@ As medidas que podem ser feitas nessa versão são:
 - Identificação de clusters
 - Geometric domain-size heterogeneity
 
-gcc ising2D.c lib.c -O3 -lm
+gcc ising2D.c lib.c -O3 -lm -g -Wall
 
 ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 
@@ -26,7 +25,7 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 #include "lib.h"
 
 #define PASTA "samples_L_640" // Define o nome da pasta na qual serão guardados os arquivos de saída 
-#define SEED 1702107985          // Define a Seed: se 0 pega do relogio do sistema
+#define SEED 1702064765          // Define a Seed: se 0 pega do relogio do sistema
 #define L 640           // Aresta da Rede
 #define STEPS 1000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
@@ -76,13 +75,15 @@ int main(int argc, char *argv[]){
     sprintf(saida6,     "%s/CLS_%s_%d.dat", PASTA, shared, seed);
     sprintf(saida7,    "%s/snap_%s_%d.dat", PASTA, shared, seed);
 
-    medidas = fopen(saida1, "a");
-    FILE *img = fopen(saida2, "w");
-    FILE *ci = fopen(saida3, "w");
-    FILE *cr = fopen(saida4, "a");
-    FILE *hk = fopen(saida5, "w");
-    FILE *cls = fopen(saida6, "w");
-    FILE *snap = fopen(saida7, "w");
+    FILE *img, *ci, *cr, *hk, *cls, *snap;
+
+    if(MES)           medidas = fopen(saida1, "a");
+    if(IMG)           img = fopen(saida2, "w");
+    if(CI)            ci = fopen(saida3, "w");
+    if(CR > 0)        cr = fopen(saida4, "a");
+    if(HK > 0)        hk = fopen(saida5, "w");
+    if(CLS && HK > 0) cls = fopen(saida6, "w");
+    if(SNAP)          snap = fopen(saida7, "w");
 
     FILE *info = fopen(arkinfo, "a");
 
@@ -185,7 +186,7 @@ int main(int argc, char *argv[]){
     double time = (double)(toc-tic)/CLOCKS_PER_SEC;
 
     //_________________________________FIM DA SIMULAÇÃO_____________________________________________ 
-    fprintf(medidas, "-1\t-1\t-1\t-1\n"); 
+    if(MES) fprintf(medidas, "-1\t-1\t-1\t-1\n"); 
 
     fprintf(info, "-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*\n");
     fprintf(info,    "SEED %d\n", seed);
@@ -198,19 +199,14 @@ int main(int argc, char *argv[]){
     fprintf(info, "TRANS %d\n\n", TRANS);
     fprintf(info, "Execution time: %lf s | %lf min\n", time, time/60.);
  
-    fclose(info); 
-    fclose(medidas);
-    fclose(img);
-    fclose(ci);
-    fclose(cr);
-    fclose(hk);
-    if(MES == 0) remove(saida1);
-    if(!IMG) remove(saida2);
-    if(!CI) remove(saida3);
-    if(CR == 0) remove(saida4);
-    if(HK == 0) remove(saida5);
-    if(CLS == 0) remove(saida6);
-    if(SNAP == 0) remove(saida7);
+    if(MES)           fclose(medidas);
+    if(IMG)           fclose(img);
+    if(CI)            fclose(ci);
+    if(CR > 0)        fclose(cr);
+    if(HK > 0)        fclose(hk);
+    if(CLS && HK > 0) fclose(cls);
+    if(SNAP)          fclose(snap);
+    fclose(info);
 
     return 0;
 }

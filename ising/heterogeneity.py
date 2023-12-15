@@ -6,7 +6,7 @@ import os
 plt.rcParams.update({"text.usetex" : True, "font.family" : "serif", "font.serif" : ["Computer Modern Serif"], "font.size" : 12})
 
 
-L = [160, 320, 640]
+L = [160, 320, 640, 1280]
 TI = 1.
 TF = 10.
 dT = 0.5
