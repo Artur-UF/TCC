@@ -135,16 +135,16 @@ void hoshenkopelman(int *sis, int **viz, int *hk, int *hksize, int N){
 
     // Union of clusters
     for(int i = 0; i < N; ++i){
-        printf("i = %d\n", i);
+        //printf("i = %d\n", i);
         if(sis[i] == sis[viz[i][1]]){
-            printf("i_up = %d\n", viz[i][1]);
+            //printf("i_up = %d\n", viz[i][1]);
             unionfind(i, viz[i][1], hk, viz);
         }
         if(sis[i] == sis[viz[i][2]]){
-            printf("i_l = %d\n", viz[i][2]);
+            //printf("i_l = %d\n", viz[i][2]);
             unionfind(i, viz[i][2], hk, viz);
         }
-        printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
+        //printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
     }
 
     // DEU SEGFAULT NO i = 408960 quando entrou no viz[i][2]
@@ -204,7 +204,14 @@ Counts the number of different domain-sizes of clusters
 }
 
 
-
+double lonelyspins(int *sys, int **fn, int N){
+/*
+Counts the number of isolated spins of a system
+*/
+    int n1 = 0;
+    for(int i = 0; i < N; ++i) if((sys[fn[i][0]] + sys[fn[i][1]] + sys[fn[i][2]] + sys[fn[i][3]])*sys[i] == -4) ++n1;
+    return n1;
+}
 
 
 

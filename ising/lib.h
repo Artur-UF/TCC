@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <stdbool.h>
+#include <sys/resource.h>
 
 int **vizinhos(int L);
 
@@ -34,4 +35,7 @@ void unionfind(int i, int j, int *hk, int **viz);
 void recurlabel(int *hk, int **viz, int i, int labeli, int labelf);
 
 int Hg(int *hksize, int *hg, int N);
+
+double lonelyspins(int *sys, int **fn, int N);
+
 #endif

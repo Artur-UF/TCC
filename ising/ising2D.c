@@ -13,20 +13,12 @@ gcc ising2D.c lib.c -O3 -lm -g -Wall
 
 ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 
-1702084705 - SEGFAULT em T = 2.0
-1702064765 - SEGFAULT em T = 1.0
-1702069689 - SEGFAULT em T = 1.0
-1702079013 - SEGFAULT em T = 1.5
-1702100969 - SEGFAUÇT em T = 2.0
-1702103491 - SEGFAULT em T = 1.5
-1702107985 - SEGFAULT em T = 2.0
-
 */
 #include "lib.h"
 
-#define PASTA "samples_L_640" // Define o nome da pasta na qual serão guardados os arquivos de saída 
-#define SEED 1702064765          // Define a Seed: se 0 pega do relogio do sistema
-#define L 640           // Aresta da Rede
+#define PASTA "samples_L_160" // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
+#define L 160           // Aresta da Rede
 #define STEPS 1000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
@@ -39,9 +31,29 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 #define HK 2            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
 #define SNAP 0          // Takes a snapshot of the moment
 #define CLS 0           // Saves the size of each cluster
-#define MES 0
+#define MES 0           // 0 doesn't mesure Energy and Magnetization and time correlation
+#define N1 0            // Counts the number of isolated spins
+
 
 int main(int argc, char *argv[]){
+    // Changing stack size for recursive function
+    const rlim_t kStackSize = 16L * 1024L * 1024L;   // min stack size = 16 Mb
+    struct rlimit rl;
+    int result;
+    result = getrlimit(RLIMIT_STACK, &rl);
+    if (result == 0)
+    {
+        if (rl.rlim_cur < kStackSize)
+        {
+            rl.rlim_cur = kStackSize;
+            result = setrlimit(RLIMIT_STACK, &rl);
+            if (result != 0)
+            {
+                fprintf(stderr, "setrlimit returned result = %d\n", result);
+            }
+        }
+    }
+
     int seed;
     if(SEED == 0){
         seed = time(NULL);
@@ -51,7 +63,7 @@ int main(int argc, char *argv[]){
 
     // Opennig output files
     int ok = 0;
-    char arkinfo[50], shared[70], saida1[150], saida2[150], saida3[150], saida4[150], saida5[150], saida6[150], saida7[150];
+    char arkinfo[50], shared[70], saida1[150], saida2[150], saida3[150], saida4[150], saida5[150], saida6[150], saida7[150], saida8[150];
     sprintf(shared, "L_%d_TI_%.2lf_TF_%.2lf_dT_%.2lf_STEPS_%d_RND_%d_TRANS_%d", L, TI, TF, dT, STEPS, RND, TRANS);
 
     FILE *medidas;
@@ -74,8 +86,10 @@ int main(int argc, char *argv[]){
     sprintf(saida5,      "%s/HK_%s_%d.dat", PASTA, shared, seed);
     sprintf(saida6,     "%s/CLS_%s_%d.dat", PASTA, shared, seed);
     sprintf(saida7,    "%s/snap_%s_%d.dat", PASTA, shared, seed);
+    sprintf(saida8,      "%s/n1_%s_%d.dat", PASTA, shared, seed);
 
-    FILE *img, *ci, *cr, *hk, *cls, *snap;
+
+    FILE *img, *ci, *cr, *hk, *cls, *snap, *n1;
 
     if(MES)           medidas = fopen(saida1, "a");
     if(IMG)           img = fopen(saida2, "w");
@@ -84,6 +98,7 @@ int main(int argc, char *argv[]){
     if(HK > 0)        hk = fopen(saida5, "w");
     if(CLS && HK > 0) cls = fopen(saida6, "w");
     if(SNAP)          snap = fopen(saida7, "w");
+    if(N1)            n1 = fopen(saida8, "w");
 
     FILE *info = fopen(arkinfo, "a");
 
@@ -103,10 +118,13 @@ int main(int argc, char *argv[]){
     int *sis = (int*)calloc(N, sizeof(int));
     int *s0 = (int*)calloc(N, sizeof(int));
     double *crr = (double*)calloc(L/2, sizeof(double));
-    double *expBeta = (double*)calloc(3, sizeof(int));
+    double *expBeta = (double*)calloc(3, sizeof(double));
     int *hksis = (int*)calloc(N, sizeof(int));
     int *hksize = (int*)malloc(N*sizeof(int));
     int *hg = (int*)calloc(N, sizeof(int));
+
+    if(MES == 0) free(s0);
+    if(CR == 0) free(crr); 
 
     // Aplicando a Condição inicial
     if(RND) for(i = 0; i < N; ++i) sis[i] = (uniform(0., 1.) < .5) ? -1 : 1;
@@ -172,15 +190,16 @@ int main(int argc, char *argv[]){
                 for(int i = 0; i < N; ++i) fprintf(snap, "%d\n", sis[i]);
                 fprintf(snap, "-2\n");
             }
-            printf("T = %.2lf\n", T[temp]);
             hoshenkopelman(sis, viz, hksis, hksize, N);
-            printf("Feito\n");
             // Saves the Hg and the system with labeled clusters
             fprintf(hk, "# %d\n", Hg(hksize, hg, N));
             if(HK == 1) for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
             // Saves the size of each cluster
             if(CLS) for(int i = 0; i < N; ++i) if(hksize[i] > 0) fprintf(cls, "%d %d\n", i, hksize[i]);
         }
+
+        if(N1) fprintf(n1, "%lf\n", lonelyspins(sis, viz, N)/N);
+
     }
     clock_t toc = clock();
     double time = (double)(toc-tic)/CLOCKS_PER_SEC;
@@ -197,8 +216,17 @@ int main(int argc, char *argv[]){
     fprintf(info,     "TF %lf\n", TF);
     fprintf(info,     "dT %lf\n", dT);
     fprintf(info, "TRANS %d\n\n", TRANS);
-    fprintf(info, "Execution time: %lf s | %lf min\n", time, time/60.);
- 
+    fprintf(info, "Execution time: %.3lf s | %.3lf min | %.3lf h\n", time, time/60., time/3600.);
+
+    free(viz);
+    free(sis);
+    free(s0);
+    free(crr);
+    free(expBeta);
+    free(hksis);
+    free(hksize);
+    free(hg);
+
     if(MES)           fclose(medidas);
     if(IMG)           fclose(img);
     if(CI)            fclose(ci);
@@ -206,6 +234,7 @@ int main(int argc, char *argv[]){
     if(HK > 0)        fclose(hk);
     if(CLS && HK > 0) fclose(cls);
     if(SNAP)          fclose(snap);
+    if(N1)            fclose(n1);
     fclose(info);
 
     return 0;
