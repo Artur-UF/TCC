@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 import os
 
-os.system('gcc ising2D.c lib.c -O3 -lm\n')
+os.system('make out')
+
 for i in range(10):
     print(f'Sample: {i+1}')
-    os.system('./a.out\n')
+    os.system('./out')
 print()
+os.system('make clean')
 

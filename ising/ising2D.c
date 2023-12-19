@@ -16,23 +16,23 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 */
 #include "lib.h"
 
-#define PASTA "samples_L_160" // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define PASTA "samples_L_200" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
-#define L 160           // Aresta da Rede
+#define L 200           // Aresta da Rede
 #define STEPS 1000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
-#define TI 1.        // Temperatura inicial
+#define TI 2.        // Temperatura inicial
 #define TF 10.        // Temperatua final
 #define dT 0.5          // Delta T
 #define TRANS 5000      // Número de MCS para jogar fora (transiente)
 #define CR 0            // Gravar a Correlação espacial
-#define HK 2            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
+#define HK 0            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
 #define SNAP 0          // Takes a snapshot of the moment
 #define CLS 0           // Saves the size of each cluster
 #define MES 0           // 0 doesn't mesure Energy and Magnetization and time correlation
-#define N1 0            // Counts the number of isolated spins
+#define N1 1            // Counts the number of isolated spins
 
 
 int main(int argc, char *argv[]){
@@ -61,25 +61,31 @@ int main(int argc, char *argv[]){
     }
     else seed = SEED; 
 
-    // Opennig output files
+    // Testing seed existence
+    FILE *readfile;
+    char command[50], buffer[BUFSIZ + 1] = {0};
+    int chars_read;
     int ok = 0;
+    do{ 
+        sprintf(command, "find %s/ -name *%d.dat", PASTA, seed);
+        readfile = popen(command, "r");
+        chars_read = fread(buffer, sizeof(char), BUFSIZ, readfile);
+        if(chars_read > 0){
+            seed += 2;
+        }else{
+            ok = 1;
+        }
+        memset(buffer, 0, (BUFSIZ +1)*sizeof(char));
+        memset(command, 0, 50*sizeof(char));
+        pclose(readfile);
+    }while(ok == 0);
+
+    // Openning output files
     char arkinfo[50], shared[70], saida1[150], saida2[150], saida3[150], saida4[150], saida5[150], saida6[150], saida7[150], saida8[150];
     sprintf(shared, "L_%d_TI_%.2lf_TF_%.2lf_dT_%.2lf_STEPS_%d_RND_%d_TRANS_%d", L, TI, TF, dT, STEPS, RND, TRANS);
 
-    FILE *medidas;
-    do{
-        sprintf(saida1, "%s/medidas_%s_%d.dat", PASTA, shared, seed);
-        medidas = fopen(saida1, "r");
-        if(medidas != NULL){
-            seed += 2;
-            fclose(medidas);
-        }
-        else ok = 1;
-    }while(ok == 0);
-
-    // Fazer o arquivo de infos que recebe append
-
-    sprintf(arkinfo, "%s/info.txt", PASTA);
+    sprintf(arkinfo,         "%s/info.txt", PASTA);
+    sprintf(saida1, "%s/medidas_%s_%d.dat", PASTA, shared, seed);
     sprintf(saida2,      "%s/im_%s_%d.dat", PASTA, shared, seed);
     sprintf(saida3,      "%s/ci_%s_%d.dat", PASTA, shared, seed);
     sprintf(saida4,      "%s/CR_%s_%d.dat", PASTA, shared, seed);
@@ -89,7 +95,7 @@ int main(int argc, char *argv[]){
     sprintf(saida8,      "%s/n1_%s_%d.dat", PASTA, shared, seed);
 
 
-    FILE *img, *ci, *cr, *hk, *cls, *snap, *n1;
+    FILE *medidas, *img, *ci, *cr, *hk, *cls, *snap, *n1;
 
     if(MES)           medidas = fopen(saida1, "a");
     if(IMG)           img = fopen(saida2, "w");
