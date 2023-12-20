@@ -16,28 +16,28 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 */
 #include "lib.h"
 
-#define PASTA "samples_L_200" // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define PASTA "dense_hg_L_1280" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
-#define L 200           // Aresta da Rede
+#define L 1280           // Aresta da Rede
 #define STEPS 1000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
-#define TI 2.        // Temperatura inicial
-#define TF 10.        // Temperatua final
-#define dT 0.5          // Delta T
+#define TI 3.5        // Temperatura inicial
+#define TF 4.5        // Temperatua final
+#define dT 0.05          // Delta T
 #define TRANS 5000      // Número de MCS para jogar fora (transiente)
 #define CR 0            // Gravar a Correlação espacial
-#define HK 0            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
+#define HK 2            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
 #define SNAP 0          // Takes a snapshot of the moment
 #define CLS 0           // Saves the size of each cluster
 #define MES 0           // 0 doesn't mesure Energy and Magnetization and time correlation
-#define N1 1            // Counts the number of isolated spins
+#define N1 0            // Counts the number of isolated spins
 
 
 int main(int argc, char *argv[]){
     // Changing stack size for recursive function
-    const rlim_t kStackSize = 16L * 1024L * 1024L;   // min stack size = 16 Mb
+    const rlim_t kStackSize = 32L * 1024L * 1024L;   // min stack size = 16 Mb
     struct rlimit rl;
     int result;
     result = getrlimit(RLIMIT_STACK, &rl);
@@ -69,7 +69,7 @@ int main(int argc, char *argv[]){
     do{ 
         sprintf(command, "find %s/ -name *%d.dat", PASTA, seed);
         readfile = popen(command, "r");
-        chars_read = fread(buffer, sizeof(char), BUFSIZ, readfile);
+        chars_read = fread(buffer, sizeof(char), BUFSIZ+1, readfile);
         if(chars_read > 0){
             seed += 2;
         }else{
