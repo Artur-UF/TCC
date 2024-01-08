@@ -3,7 +3,7 @@ import os
 
 os.system('make out')
 
-for i in range(10):
+for i in range(100):
     print(f'Sample: {i+1}')
     os.system('./out')
 print()

@@ -16,23 +16,23 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 */
 #include "lib.h"
 
-#define PASTA "dense_hg_L_1280" // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define PASTA "n1/smpl_500" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
-#define L 1280           // Aresta da Rede
-#define STEPS 1000      // Número de MCS no equilíbrio
+#define L 500           // Aresta da Rede
+#define STEPS 0      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
-#define TI 3.5        // Temperatura inicial
-#define TF 4.5        // Temperatua final
+#define TI 0.        // Temperatura inicial
+#define TF 0.        // Temperatua final
 #define dT 0.05          // Delta T
-#define TRANS 5000      // Número de MCS para jogar fora (transiente)
+#define TRANS 0      // Número de MCS para jogar fora (transiente)
 #define CR 0            // Gravar a Correlação espacial
-#define HK 2            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
+#define HK 0            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
 #define SNAP 0          // Takes a snapshot of the moment
 #define CLS 0           // Saves the size of each cluster
 #define MES 0           // 0 doesn't mesure Energy and Magnetization and time correlation
-#define N1 0            // Counts the number of isolated spins
+#define N1 1            // Counts the number of isolated spins
 
 
 int main(int argc, char *argv[]){
@@ -149,6 +149,7 @@ int main(int argc, char *argv[]){
         E = (double) energia(sis, viz, N, 1);
         for(s = 0; s < TRANS; ++s){ //Loop sobre passos de Monte Carlo
             //MCS
+            printf("oi\n");
             for(j = 0; j < N; ++j){
                 metropolis(sis, viz, &E, expBeta, J, j);
             }
@@ -160,11 +161,13 @@ int main(int argc, char *argv[]){
         if(s == TRANS && MES > 0){
             for(i = 0; i < N; ++i) s0[i] = sis[i];
             m0 = magnetizacao(sis, N);
+            printf("oi2\n");
         }
 
         // Roda STEPS de MCS no equilíbrio
         for(s = 0; s < STEPS; ++s){
             //MCS
+            printf("oi3\n");
             for(j = 0; j < N; ++j){
                 metropolis(sis, viz, &E, expBeta, J, j);
             }

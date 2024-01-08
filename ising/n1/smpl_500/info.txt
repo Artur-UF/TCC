@@ -1,0 +1,1100 @@
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115303
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115305
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115307
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115309
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115311
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115313
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115315
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115317
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.004 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115319
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115321
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115323
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115325
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115327
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115329
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115331
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115333
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115335
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115337
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115339
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115341
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115343
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115345
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115347
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115349
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115351
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115353
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115355
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115357
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115359
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115361
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115363
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115365
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115367
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115369
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115371
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115373
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115375
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115377
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115379
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115381
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115383
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115385
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115387
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115389
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115391
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115393
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115395
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115397
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115399
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115401
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115403
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115405
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115407
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115409
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115411
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115413
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115415
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115417
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115419
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115421
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115423
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115425
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115427
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115429
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115431
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115433
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115435
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115437
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115439
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115441
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115443
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115445
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115447
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115449
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115451
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115453
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115455
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115457
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115459
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115461
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115463
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115465
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115467
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115469
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115471
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115473
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115475
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115477
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115479
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115481
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115483
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115485
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115487
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115489
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115491
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115493
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115495
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115497
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115499
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1703115501
+L 500
+STEPS 0
+RND 1
+TI 0.000000
+TF 0.000000
+dT 0.050000
+TRANS 0
+
+Execution time: 0.002 s | 0.000 min | 0.000 h

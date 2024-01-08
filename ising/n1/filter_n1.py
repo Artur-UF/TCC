@@ -2,9 +2,9 @@ import os
 import math
 import fnmatch
 
-L = 200
-TI = 2.
-TF = 10.
+L = 500
+TI = 0.
+TF = 0.
 dT = 0.5
 
 
@@ -13,7 +13,7 @@ T = list(TI+(n*dT) for n in range(N+1))
 n = len(T)
 n1 = list(0 for i in range(n))
 
-path = f'samples_L_{L}'
+path = f'smpl_500'
 samples = fnmatch.filter(list(i.name for i in os.scandir(path)), 'n1*')
 #print(samples)
 
