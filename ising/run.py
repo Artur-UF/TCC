@@ -1,11 +1,15 @@
 #!/usr/bin/python3
 import os
+import sys
+
+AMOSTRAS = int(sys.argv[1])
 
 os.system('make out')
 
-for i in range(100):
-    print(f'Sample: {i+1}')
-    os.system('./out')
+for i in range(AMOSTRAS):
+    os.system('./out_size')
 print()
+
+
 os.system('make clean')
 

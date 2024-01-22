@@ -135,19 +135,13 @@ void hoshenkopelman(int *sis, int **viz, int *hk, int *hksize, int N){
 
     // Union of clusters
     for(int i = 0; i < N; ++i){
-        //printf("i = %d\n", i);
         if(sis[i] == sis[viz[i][1]]){
-            //printf("i_up = %d\n", viz[i][1]);
             unionfind(i, viz[i][1], hk, viz);
         }
         if(sis[i] == sis[viz[i][2]]){
-            //printf("i_l = %d\n", viz[i][2]);
             unionfind(i, viz[i][2], hk, viz);
         }
-        //printf("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
     }
-
-    // DEU SEGFAULT NO i = 408960 quando entrou no viz[i][2]
 
     // Mesure size of clusters
     memset(hksize, 0, N*sizeof(*hksize));

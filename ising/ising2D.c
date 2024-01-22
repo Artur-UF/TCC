@@ -16,23 +16,23 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 */
 #include "lib.h"
 
-#define PASTA "n1/smpl_500" // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define PASTA "hksize_teste" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
-#define L 500           // Aresta da Rede
+#define L 160           // Aresta da Rede
 #define STEPS 0      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
-#define TI 0.        // Temperatura inicial
-#define TF 0.        // Temperatua final
-#define dT 0.05          // Delta T
+#define TI 2.1        // Temperatura inicial
+#define TF 2.8        // Temperatua final
+#define dT 0.01          // Delta T
 #define TRANS 0      // Número de MCS para jogar fora (transiente)
 #define CR 0            // Gravar a Correlação espacial
-#define HK 0            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
+#define HK 2            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
 #define SNAP 0          // Takes a snapshot of the moment
-#define CLS 0           // Saves the size of each cluster
+#define CLS 1           // Saves the size of each cluster
 #define MES 0           // 0 doesn't mesure Energy and Magnetization and time correlation
-#define N1 1            // Counts the number of isolated spins
+#define N1 0            // Counts the number of isolated spins
 
 
 int main(int argc, char *argv[]){
@@ -204,7 +204,10 @@ int main(int argc, char *argv[]){
             fprintf(hk, "# %d\n", Hg(hksize, hg, N));
             if(HK == 1) for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
             // Saves the size of each cluster
-            if(CLS) for(int i = 0; i < N; ++i) if(hksize[i] > 0) fprintf(cls, "%d %d\n", i, hksize[i]);
+            if(CLS){
+                for(int i = 0; i < N; ++i) if(hksize[i] > 0) fprintf(cls, "%d %d\n", i, hksize[i]);
+                fprintf(cls, "# %.2lf\n", T[temp]);
+            }
         }
 
         if(N1) fprintf(n1, "%lf\n", lonelyspins(sis, viz, N)/N);
