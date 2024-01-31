@@ -2,15 +2,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 plt.rcParams.update({"text.usetex" : True, "font.family" : "serif", "font.serif" : ["Computer Modern Serif"], "font.size" : 12})
 
-L = [500, 800]
+L = [200, 500, 800]
 TI = 2.
 TF = 3.
 dT = 0.03
 
-n1 = [np.loadtxt(f'n1_{L[0]}.dat'), np.loadtxt(f'n1_{L[1]}.dat')]
+n1 = [np.loadtxt(f'n1_{L[0]}.dat'), np.loadtxt(f'n1_{L[1]}.dat'), np.loadtxt(f'n1_{L[2]}.dat')]
 T = np.arange(TI, TF+dT, dT)
 
-markers = ['v', '^']
+markers = ['v', '^', 's']
 
 
 fig, ax = plt.subplots(1, 1, layout='constrained')
