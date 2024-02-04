@@ -14,7 +14,7 @@ T = list(TI+(n*dT) for n in range(N+0))
 n = len(T)
 H = list(0 for i in range(n))
 
-path = f'hk_{L}'
+path = f'hk_{L}_{int(sys.argv[5])}'
 samples = fnmatch.filter(list(i.name for i in os.scandir(path)), 'HK*')
 
 i = 0
@@ -31,5 +31,5 @@ H = list(H[k]/len(samples) for k in range(n))
 
 with open(path+'.dat', 'w') as f:
     for i in range(len(H)):
-        f.write(f'{H[i]}\n') 
+        f.write(f'{H[i]} {T[i]}\n') 
 
