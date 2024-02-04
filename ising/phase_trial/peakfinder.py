@@ -64,39 +64,39 @@ TF = TS[-1]
 definer('ising2D.c', PASTA, SEED, L, STEPS, RND, IMG, CI, TI, TF, dT, TRANS, CR, HK, SNAP, CLS, MES, N1)
 
 for i in range(4):
-    os.mkdir(f'hk_{L}_{i}')
-
-    os.system('make out')
+#    os.mkdir(f'hk_{L}_{i}')
+#
+#    os.system('make out')
+#    
+#    for i in range(25):
+#        os.system('./out_find &')
+#        os.system('./out_find &')
+#        os.system('./out_find &')
+#        os.system('./out_find')
+#    
+#    samples = fnmatch.filter(list(i.name for i in os.scandir(path)), 'HK*')
+#    
+#    if len(samples) < 100:
+#        resto = 100 - len(samples)
+#        for i in range(resto):
+#            os.system('./out_find')
+#    
+#    os.system('make clean')
     
-    for i in range(25):
-        os.system('./out_find &')
-        os.system('./out_find &')
-        os.system('./out_find &')
-        os.system('./out_find')
-    
-    samples = fnmatch.filter(list(i.name for i in os.scandir(path)), 'HK*')
-    
-    if len(samples) < 100:
-        resto = 100 - len(samples)
-        for i in range(resto):
-            os.system('./out_find')
-    
-    os.system('make clean')
-    
-    os.system(f'python3 filter_hg.py {L} {TI:.4f} {TF:.4f} {dT} {i}')
+    os.system(f'python3 new_filter.py {L} {TI:.4f} {TF:.4f} {dT} {i}')
     break    
-    t = np.loadtxt(f'hk_{L}_{i}.dat')
-
-    #--------------------Novas temperaturas--------------------
-    ti = ts[np.where(t == max(t))[0]]
-    tf = ts[np.where(t == max(t))[0]+1]
-    ts, step = np.linspace(ti, tf, 4, retstep=True)
-    TS, dT = np.linspace(ti+step/2, tf-step/2, 3, retstep=True)
-    
-    TI = TS[0]
-    TF = TS[-1]
-    
-    PASTA = f'\"hk_{L}_{i+1}\"'
-    
-    definer('ising2D.c', PASTA, SEED, L, STEPS, RND, IMG, CI, TI, TF, dT, TRANS, CR, HK, SNAP, CLS, MES, N1)
+#    t = np.loadtxt(f'hk_{L}_{i}.dat')
+#
+#    #--------------------Novas temperaturas--------------------
+#    ti = ts[np.where(t == max(t))[0]]
+#    tf = ts[np.where(t == max(t))[0]+1]
+#    ts, step = np.linspace(ti, tf, 4, retstep=True)
+#    TS, dT = np.linspace(ti+step/2, tf-step/2, 3, retstep=True)
+#    
+#    TI = TS[0]
+#    TF = TS[-1]
+#    
+#    PASTA = f'\"hk_{L}_{i+1}\"'
+#    
+#    definer('ising2D.c', PASTA, SEED, L, STEPS, RND, IMG, CI, TI, TF, dT, TRANS, CR, HK, SNAP, CLS, MES, N1)
 
