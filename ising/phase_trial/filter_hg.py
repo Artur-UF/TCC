@@ -10,7 +10,7 @@ dT = float(sys.argv[4])
 
 
 N = math.ceil((TF-TI)/dT)
-T = list(TI+(n*dT) for n in range(N+0))
+T = list(TI+(n*dT) for n in range(N+1))
 n = len(T)
 H = list(0 for i in range(n))
 
