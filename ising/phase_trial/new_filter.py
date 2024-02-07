@@ -12,8 +12,6 @@ dT = float(sys.argv[4])
 T = np.arange(TI, TF+dT, dT)
 H = np.zeros(len(T))
 
-print(T)
-
 path = f'hk_{L}_{int(sys.argv[5])}'
 samples = fnmatch.filter(list(i.name for i in os.scandir(path)), 'HK*')
 

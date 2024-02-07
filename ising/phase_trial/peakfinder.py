@@ -84,19 +84,19 @@ for i in range(4):
 #    os.system('make clean')
     
     os.system(f'python3 new_filter.py {L} {TI:.4f} {TF:.4f} {dT} {i}')
+    hg, t = np.loadtxt(f'hk_{L}_{i}.dat', unpack=True)
+
+    #--------------------Novas temperaturas--------------------
+    ti = TS[np.where(hg == max(hg))[0][0]]
+    tf = TS[np.where(hg == max(hg))[0][0]+1]
+    ts, step = np.linspace(ti, tf, 4, retstep=True)
+    TS, dT = np.linspace(ti+step/2, tf-step/2, 3, retstep=True)
+    
+    TI = TS[0]
+    TF = TS[-1]
+
+    PASTA = f'\"hk_{L}_{i+1}\"'
+    
+    definer('ising2D.c', PASTA, SEED, L, STEPS, RND, IMG, CI, TI, TF, dT, TRANS, CR, HK, SNAP, CLS, MES, N1)
     break    
-#    t = np.loadtxt(f'hk_{L}_{i}.dat')
-#
-#    #--------------------Novas temperaturas--------------------
-#    ti = ts[np.where(t == max(t))[0]]
-#    tf = ts[np.where(t == max(t))[0]+1]
-#    ts, step = np.linspace(ti, tf, 4, retstep=True)
-#    TS, dT = np.linspace(ti+step/2, tf-step/2, 3, retstep=True)
-#    
-#    TI = TS[0]
-#    TF = TS[-1]
-#    
-#    PASTA = f'\"hk_{L}_{i+1}\"'
-#    
-#    definer('ising2D.c', PASTA, SEED, L, STEPS, RND, IMG, CI, TI, TF, dT, TRANS, CR, HK, SNAP, CLS, MES, N1)
 

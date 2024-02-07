@@ -16,16 +16,16 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 */
 #include "lib.h"
 
-#define PASTA "hk_640_0" // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define PASTA "hk_640_1" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
 #define L 640           // Aresta da Rede
 #define STEPS 1000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
-#define TI 4.167        // Temperatura inicial
-#define TF 4.833        // Temperatua final
-#define dT 0.333          // Delta T
+#define TI 4.556        // Temperatura inicial
+#define TF 4.778        // Temperatua final
+#define dT 0.111          // Delta T
 #define TRANS 5000      // Número de MCS para jogar fora (transiente)
 #define CR 0            // Gravar a Correlação espacial
 #define HK 2            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
