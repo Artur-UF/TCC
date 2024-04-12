@@ -1,7 +1,7 @@
 .RECIPEPREFIX = {
 
 FLAGS = -lm -g -Wall -O3
-OUTFILE = out_size
+OUTFILE = out
 
 out: ising2D.o lib.o
 { gcc ising2D.o lib.o -o $(OUTFILE) $(FLAGS)

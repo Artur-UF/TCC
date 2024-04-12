@@ -3,6 +3,7 @@ Library with usefull functions for Monte Carlo and Ising-2D
 */
 #include"lib.h"
 
+
 double *arange(double i, double f, double s){
 /*
 Creates an array of size: ceil((f-i)/s) with 's' as step size

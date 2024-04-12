@@ -16,16 +16,16 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 */
 #include "lib.h"
 
-#define PASTA "hksize_teste" // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define PASTA "hk-teste" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
 #define L 160           // Aresta da Rede
 #define STEPS 1000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
-#define TI 2.1        // Temperatura inicial
-#define TF 2.8        // Temperatua final
-#define dT 0.01          // Delta T
+#define TI 4.167        // Temperatura inicial
+#define TF 4.833        // Temperatua final
+#define dT 0.333          // Delta T
 #define TRANS 5000      // Número de MCS para jogar fora (transiente)
 #define CR 0            // Gravar a Correlação espacial
 #define HK 2            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
@@ -149,7 +149,6 @@ int main(int argc, char *argv[]){
         E = (double) energia(sis, viz, N, 1);
         for(s = 0; s < TRANS; ++s){ //Loop sobre passos de Monte Carlo
             //MCS
-            printf("oi\n");
             for(j = 0; j < N; ++j){
                 metropolis(sis, viz, &E, expBeta, J, j);
             }
@@ -161,13 +160,11 @@ int main(int argc, char *argv[]){
         if(s == TRANS && MES > 0){
             for(i = 0; i < N; ++i) s0[i] = sis[i];
             m0 = magnetizacao(sis, N);
-            printf("oi2\n");
         }
 
         // Roda STEPS de MCS no equilíbrio
         for(s = 0; s < STEPS; ++s){
             //MCS
-            printf("oi3\n");
             for(j = 0; j < N; ++j){
                 metropolis(sis, viz, &E, expBeta, J, j);
             }
@@ -201,12 +198,12 @@ int main(int argc, char *argv[]){
             }
             hoshenkopelman(sis, viz, hksis, hksize, N);
             // Saves the Hg and the system with labeled clusters
-            fprintf(hk, "# %d\n", Hg(hksize, hg, N));
+            fprintf(hk, "# %d %.3lf\n", Hg(hksize, hg, N), T[temp]);
             if(HK == 1) for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
             // Saves the size of each cluster
             if(CLS){
                 for(int i = 0; i < N; ++i) if(hksize[i] > 0) fprintf(cls, "%d %d\n", i, hksize[i]);
-                fprintf(cls, "# %.2lf\n", T[temp]);
+                fprintf(cls, "# %.3lf\n", T[temp]);
             }
         }
 
