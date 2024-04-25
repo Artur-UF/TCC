@@ -198,7 +198,7 @@ int main(int argc, char *argv[]){
             }
             hoshenkopelman(sis, viz, hksis, hksize, N);
             // Saves the Hg and the system with labeled clusters
-            fprintf(hk, "# %d %.3lf\n", Hg(hksize, hg, N), T[temp]);
+            fprintf(hk, "# %d %.4lf\n", Hg(hksize, hg, N), T[temp]);
             if(HK == 1) for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
             // Saves the size of each cluster
             if(CLS){

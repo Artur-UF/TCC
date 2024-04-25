@@ -60,7 +60,7 @@ plt.xlabel(r'$T$')
 plt.ylabel(r'$H_{g}$')
 plt.ylim(0, max(H[-1])+30)
 plt.xticks([1, 2, 2.269, 3,  4, 5, 6, 7, 8, 9, 10], [1, 2, r'$T_{c}$', 3, 4, 5, 6, 7, 8, 9, 10])
-plt.grid()
+#plt.grid()
 
 plt.savefig('abstract.png', dpi=400)
 
