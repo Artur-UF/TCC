@@ -8,9 +8,9 @@ plt.rcParams.update({"text.usetex" : True, "font.family" : "serif", "font.serif"
 colors = ['b', 'g', 'r', 'purple', 'orange', 'magenta']
 markers = ['s', '^', 'v', '*', 'd', '>']
 
-fig, ax = plt.subplots(1, 2, figsize=(8, 4), layout='constrained')
+fig, ax = plt.subplots(2, 1, figsize=(6, 9), layout='constrained')
 
-plt.subplot(121)
+plt.subplot(211)
 
 L = [320, 800, 1500]
 TI = 2.1
@@ -29,14 +29,14 @@ for i in range(len(L)):
 plt.vlines(2.269, 0, max(Hntc[-1])+25, colors='k', linestyle='dashed', linewidth=.7)
 plt.legend()
 #plt.xscale('log')
-plt.xlabel(r'$T$')
-plt.ylabel(r'$H_{g}$')
+plt.xlabel(r'\Large{$T$}')
+plt.ylabel(r'\Large{$H_{g}$}')
 plt.ylim(0, 500) #max(Hntc[-1])+30)
 plt.xlim(2.1, 2.4)
-#plt.xticks(list(np.round(T, 3))[::5], list(np.round(T, 3))[::5])
+plt.xticks([2.1, 2.15, 2.20, 2.25, 2.269, 2.30, 2.35, 2.40], [2.10, 2.15, 2.20, 2.25, r'$T_c$', 2.30, 2.35, 2.40])
 #plt.grid()
 
-plt.subplot(122)
+plt.subplot(212)
 
 L = [160, 320, 640, 960, 1280, 1600]
 TI = 1.
@@ -55,12 +55,12 @@ for i in range(len(L)):
     plt.plot(T[i], H[i], linewidth=.5, color=colors[i], marker=markers[i], markersize=2, label=f'L = {L[i]}')
 plt.vlines(2.269, 0, max(H[-1])+25, colors='k', linestyle='dashed', linewidth=.7)
 plt.legend()
-plt.xscale('log')
-plt.xlabel(r'$T$')
-plt.ylabel(r'$H_{g}$')
+#plt.xscale('log')
+plt.xlabel(r'\Large{$T$}')
+plt.ylabel(r'\Large{$H_{g}$}')
 plt.ylim(0, max(H[-1])+30)
-plt.xticks([1, 2, 2.269, 3,  4, 5, 6, 7, 8, 9, 10], [1, 2, r'$T_{c}$', 3, 4, 5, 6, 7, 8, 9, 10])
+plt.xticks([1, 2.269, 3,  4, 5, 6, 7, 8, 9, 10], [1, r'$T_{c}$', 3, 4, 5, 6, 7, 8, 9, 10])
 #plt.grid()
 
-plt.savefig('abstract.png', dpi=400)
+plt.savefig('hg-full-vert.png', dpi=400)
 
