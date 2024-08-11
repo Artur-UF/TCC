@@ -1,0 +1,70 @@
+\documentclass[a4paper,12pt,twoside]{report}
+
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[top=3cm,left=2.5cm,right=2.5cm,bottom=3cm]{geometry}
+\usepackage[footnotesize,bf]{caption}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{cite}
+\usepackage{indentfirst}
+\usepackage{multicol}
+\usepackage{picinpar}
+\usepackage{color}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyfoot{}
+\renewcommand{\sectionmark}[1]{\markright{\thesection \hspace{2mm} #1}{}}
+
+\bibliographystyle{abntex2-num}
+
+\widowpenalty=10000
+\clubpenalty=10000
+
+\begin{document}
+\onehalfspace
+
+\include{Capa}
+\include{Empty}
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+%sumario
+\fancyhead{}
+\fancyhead[LE,RO]{\scriptsize \slshape \leftmark}
+\fancyhead[LO,RE]{\thepage}
+
+\tableofcontents
+
+\newpage
+\addcontentsline{toc}{chapter}{Resumo}  \include{Resumo}
+\addcontentsline{toc}{chapter}{Abstract}  \include{Abstract}
+
+%texto
+\fancyhf{}
+\fancyhead[RE,LO]{\scriptsize \slshape \leftmark \\ \slshape \rightmark}
+\fancyhead[LE,RO]{\thepage}
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\include{Introducao}
+\include{Crescimento}
+\include{HetEquilibrio}
+\include{HetDinamica}
+\include{Conclusoes}
+
+%\appendix
+
+%bibliografia
+\fancyhead{}
+\fancyhead[LE,RO]{\scriptsize \slshape \leftmark}
+\fancyhead[LO,RE]{\thepage}
+
+\bibliography{Biblio}   
+\addcontentsline{toc}{chapter}{Referências Bibliográficas}
+
+\end{document}
+

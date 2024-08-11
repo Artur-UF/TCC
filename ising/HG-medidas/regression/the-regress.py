@@ -4,7 +4,7 @@ import scipy.stats as sp
 import matplotlib.pyplot as plt
 plt.rcParams.update({"text.usetex" : True, "font.family" : "serif", "font.serif" : ["Computer Modern Serif"], "font.size" : 12})
 
-log = False
+log = True
 trans = True
 
 paths = glob.glob('results*')
@@ -17,14 +17,14 @@ Ls = arks[0][0]
 
 
 if trans:
-    tc = 2.69185 # Tc da transição térmica 
+    tc = 2.269185 # Tc da transição térmica 
 else:
     tc = 2.567 # transição dependente de 3 ordem
 
 
 if log:
     peaks = np.log10(peaks-tc)
-    Ls = np.log10(1/Ls)
+    Ls = 1/Ls #np.log10(1/Ls)
 else:
     peaks = peaks-tc
     Ls = 1/Ls
@@ -40,20 +40,29 @@ plt.subplot(111)
 plt.plot(Ls, peaks, 'r')
 plt.scatter(Ls, peaks, c='k', s=7, zorder=3)
 
-pr = sp.linregress(Ls, peaks)
-x = np.linspace(0, 0.0011 ,100)
-y = func(x, pr[0], pr[1])
-
-plt.plot(x, y, 'b')
-
 if log:
+    pr = sp.linregress(Ls, peaks)
+    x = np.linspace(0, 0.0011 ,100)
+    y = func(x, pr[0], pr[1])
+    
+    plt.plot(x, y, 'b')
+
     plt.xlabel(r'$\log{(1/L)}$')
     plt.ylabel(r'$\log{[T_{*}(L)-T_c]}$')
 else:
+    pr = sp.linregress(Ls, peaks)
+    x = np.linspace(0, 0.0011 ,100)
+    y = func(x, pr[0], pr[1])
+    
+    plt.plot(x, y, 'b')
+
     plt.xlabel(r'$1/L$')
     plt.ylabel(r'$T_*(L)-T_c$')
 
 plt.grid()
 #plt.show()
-plt.savefig('extrapolation.png', dpi=400)
-
+if trans:
+    plt.savefig('extrapolation-Tc.png', dpi=400)
+else:
+    plt.savefig('extrapolation-Tc-new.png', dpi=400)
+   

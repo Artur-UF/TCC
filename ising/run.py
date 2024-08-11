@@ -7,7 +7,7 @@ AMOSTRAS = int(sys.argv[1])
 os.system('make out')
 
 for i in range(AMOSTRAS):
-    os.system('./out_size')
+    os.system('./out')
 print()
 
 
