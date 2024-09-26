@@ -1,11 +1,22 @@
 -*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
-SEED 1722041555
+SEED 1726599039
 L 500
 STEPS 1000
 RND 1
 TI 1.000000
-TF 5.000000
+TF 2.000000
 dT 1.000000
 TRANS 5000
 
-Execution time: 160.392 s | 2.673 min | 0.045 h
+Execution time: 73.765 s | 1.229 min | 0.020 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1726599217
+L 500
+STEPS 1000
+RND 1
+TI 10.000000
+TF 10.000000
+dT 1.000000
+TRANS 5000
+
+Execution time: 38.096 s | 0.635 min | 0.011 h

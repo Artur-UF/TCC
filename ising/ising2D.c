@@ -23,9 +23,9 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
-#define TI 1.        // Temperatura inicial
-#define TF 5.        // Temperatua final
-#define dT 1.          // Delta T
+#define TI 10.0        // Temperatura inicial
+#define TF 10.0        // Temperatua final
+#define dT 1.0          // Delta T
 #define TRANS 5000      // Número de MCS para jogar fora (transiente)
 #define CR 0            // Gravar a Correlação espacial
 #define HK 1            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
