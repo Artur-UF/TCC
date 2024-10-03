@@ -31,5 +31,5 @@ H = list(H[k]/len(samples) for k in range(n))
 
 with open(f'Hg_L_{L}.dat', 'w') as f:
     for i in range(len(H)):
-        f.write(f'{H[i]}\n') 
+        f.write(f'{H[i]}\n')
 

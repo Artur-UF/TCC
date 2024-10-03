@@ -18,18 +18,19 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 
 #define PASTA "snapshot" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
-#define L 500           // Aresta da Rede
-#define STEPS 1000      // Número de MCS no equilíbrio
+#define L 100           // Aresta da Rede
+#define STEPS 10000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
 #define TI 10.0        // Temperatura inicial
-#define TF 10.0        // Temperatua final
-#define dT 1.0          // Delta T
+#define TF 1.0        // Temperatua final
+#define dT -1.0          // Delta T
 #define TRANS 5000      // Número de MCS para jogar fora (transiente)
+#define dM 100          // Passos entre medidas
 #define CR 0            // Gravar a Correlação espacial
-#define HK 1            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
-#define SNAP 1          // Takes a snapshot of the moment
+#define HK 2            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
+#define SNAP 0          // Takes a snapshot of the moment
 #define CLS 0           // Saves the size of each cluster
 #define MES 0           // 0 doesn't mesure Energy and Magnetization and time correlation
 #define N1 0            // Counts the number of isolated spins
@@ -170,7 +171,7 @@ int main(int argc, char *argv[]){
             }
             t++;
             //Fim do MCS
-    
+
             // Imagens para fazer o gif
             if(IMG){
                 for(i = 0; i < N; ++i) fprintf(img, "%d\n", sis[i]);
@@ -189,21 +190,22 @@ int main(int argc, char *argv[]){
                     ncr++;
                 }
             }
-        }
-        if(HK > 0){
-            // Saves a snapshot of the system 
-            if(SNAP){
-                for(int i = 0; i < N; ++i) fprintf(snap, "%d\n", sis[i]);
-                fprintf(snap, "0\n");
-            }
-            hoshenkopelman(sis, viz, hksis, hksize, N);
-            // Saves the Hg and the system with labeled clusters
-            fprintf(hk, "# %d %.4lf\n", Hg(hksize, hg, N), T[temp]);
-            if(HK == 1) for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
-            // Saves the size of each cluster
-            if(CLS){
-                for(int i = 0; i < N; ++i) if(hksize[i] > 0) fprintf(cls, "%d %d\n", i, hksize[i]);
-                fprintf(cls, "# %.3lf\n", T[temp]);
+            // AQUI FOI ANTECIPADO PARA FAZER MAIS MEDIDAS
+            if(HK > 0 && s%dM == 0){
+                // Saves a snapshot of the system 
+                if(SNAP){
+                    for(int i = 0; i < N; ++i) fprintf(snap, "%d\n", sis[i]);
+                    fprintf(snap, "0\n");
+                }
+                hoshenkopelman(sis, viz, hksis, hksize, N);
+                // Saves the Hg and the system with labeled clusters
+                fprintf(hk, "# %d %.4lf\n", Hg(hksize, hg, N), T[temp]);
+                if(HK == 1) for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
+                // Saves the size of each cluster
+                if(CLS){
+                    for(int i = 0; i < N; ++i) if(hksize[i] > 0) fprintf(cls, "%d %d\n", i, hksize[i]);
+                    fprintf(cls, "# %.3lf\n", T[temp]);
+                }
             }
         }
 
@@ -224,17 +226,18 @@ int main(int argc, char *argv[]){
     fprintf(info,     "TI %lf\n", TI);
     fprintf(info,     "TF %lf\n", TF);
     fprintf(info,     "dT %lf\n", dT);
-    fprintf(info, "TRANS %d\n\n", TRANS);
+    fprintf(info,   "TRANS %d\n", TRANS);
+    fprintf(info,    "dM %d\n\n", dM);
     fprintf(info, "Execution time: %.3lf s | %.3lf min | %.3lf h\n", time, time/60., time/3600.);
 
     free(viz);
     free(sis);
-    free(s0);
-    free(crr);
     free(expBeta);
     free(hksis);
     free(hksize);
     free(hg);
+    if(MES != 0) free(s0);
+    if(CR != 0) free(crr);
 
     if(MES)           fclose(medidas);
     if(IMG)           fclose(img);
