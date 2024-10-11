@@ -207,10 +207,8 @@ int main(int argc, char *argv[]){
                     fprintf(cls, "# %.3lf\n", T[temp]);
                 }
             }
+            if(N1) fprintf(n1, "%lf\n", lonelyspins(sis, viz, N)/N);
         }
-
-        if(N1) fprintf(n1, "%lf\n", lonelyspins(sis, viz, N)/N);
-
     }
     clock_t toc = clock();
     double time = (double)(toc-tic)/CLOCKS_PER_SEC;

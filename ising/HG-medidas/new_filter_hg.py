@@ -3,7 +3,6 @@ import fnmatch
 
 L = 160
 
-
 path = f'samples_L_{L}'
 samples = fnmatch.filter(list(i.name for i in os.scandir(path)), 'HK*')
 #print(samples)
@@ -28,6 +27,9 @@ for file in samples:
                     c += 1
 c /= len(T)
 H = list(H[k]/c for k in range(len(T)))
+
+H = [::-1]
+T = T[::-1]
 
 with open(f'Hg_L_{L}.dat', 'w') as f:
     for i in range(len(H)):
