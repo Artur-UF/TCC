@@ -16,25 +16,27 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 */
 #include "lib.h"
 
-#define PASTA "snapshot" // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define PASTA "teste-cls" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
-#define L 100           // Aresta da Rede
+#define L 50           // Aresta da Rede
 #define STEPS 10000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
-#define TI 10.0        // Temperatura inicial
-#define TF 1.0        // Temperatua final
+#define TI 4.16        // Temperatura inicial
+#define TF 2.269        // Temperatua final
 #define dT -1.0          // Delta T
 #define TRANS 5000      // Número de MCS para jogar fora (transiente)
 #define dM 100          // Passos entre medidas
 #define CR 0            // Gravar a Correlação espacial
 #define HK 2            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
 #define SNAP 0          // Takes a snapshot of the moment
-#define CLS 0           // Saves the size of each cluster
+#define CLS 1           // Saves the size of each cluster
 #define MES 0           // 0 doesn't mesure Energy and Magnetization and time correlation
 #define N1 0            // Counts the number of isolated spins
-
+#define manT 1          // Set Temperature array manually
+#define mT {4.16, 3.0, 2.269185}           // Temperature array
+#define sizemT 3        // Size of Temerature array if setted manually
 
 int main(int argc, char *argv[]){
     // Changing stack size for recursive function
@@ -117,8 +119,18 @@ int main(int argc, char *argv[]){
     int stepcr = (CR <= 0) ? STEPS : STEPS/CR;      //Espaçamento entre medidas de C(r) 
 
     // Definição de temperatura(s)
-    int nT = ceil((TF-TI)/dT);
+    int nT;
     double *T = arange(TI, TF+dT, dT);
+    double Taux[] = mT;
+    if(manT == 0){
+        nT = ceil((TF-TI)/dT);
+    }
+    if(manT == 1){
+        free(T);
+        nT = sizemT;
+        T = calloc(nT, sizeof(double));
+        for(int i = 0; i < nT; i++) T[i] = Taux[i];
+    }
 
     // Criando matriz e vetores necessários
     int **viz = vizinhos(L);
@@ -136,14 +148,14 @@ int main(int argc, char *argv[]){
     // Aplicando a Condição inicial
     if(RND) for(i = 0; i < N; ++i) sis[i] = (uniform(0., 1.) < .5) ? -1 : 1;
     else for(i = 0; i < N; ++i) sis[i] = 1;
-    
-    if(CI) for(i = 0; i < N; ++i) fprintf(ci, "%d\n", sis[i]);  
+
+    if(CI) for(i = 0; i < N; ++i) fprintf(ci, "%d\n", sis[i]);
 
     // Simulação
     clock_t tic = clock();
 
     t = 0;
-    for(int temp = 0; temp <= nT; ++temp){      // Loop de temperaturas
+    for(int temp = 0; temp < nT; ++temp){      // Loop de temperaturas
         beta = 1./T[temp];
         defexp(expBeta, beta);
         // Loop para passar pelo transiente
@@ -201,11 +213,12 @@ int main(int argc, char *argv[]){
                 // Saves the Hg and the system with labeled clusters
                 fprintf(hk, "# %d %.4lf\n", Hg(hksize, hg, N), T[temp]);
                 if(HK == 1) for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
-                // Saves the size of each cluster
-                if(CLS){
-                    for(int i = 0; i < N; ++i) if(hksize[i] > 0) fprintf(cls, "%d %d\n", i, hksize[i]);
-                    fprintf(cls, "# %.3lf\n", T[temp]);
-                }
+            }
+            // Saves the size of each cluster
+            if(CLS && s%dM == 0){
+                for(int i = 0; i < N; ++i) if(hksize[i] > 0) fprintf(cls, "%d %d\n", i, hksize[i]);
+                hoshenkopelman(sis, viz, hksis, hksize, N);
+                fprintf(cls, "# %d %.4lf\n", Hg(hksize, hg, N), T[temp]);
             }
             if(N1) fprintf(n1, "%lf\n", lonelyspins(sis, viz, N)/N);
         }
@@ -225,7 +238,9 @@ int main(int argc, char *argv[]){
     fprintf(info,     "TF %lf\n", TF);
     fprintf(info,     "dT %lf\n", dT);
     fprintf(info,   "TRANS %d\n", TRANS);
-    fprintf(info,    "dM %d\n\n", dM);
+    fprintf(info,      "dM %d\n", dM);
+    fprintf(info,    "manT %d\n", manT);
+    fprintf(info,  "sizemT %d\n\n", sizemT);
     fprintf(info, "Execution time: %.3lf s | %.3lf min | %.3lf h\n", time, time/60., time/3600.);
 
     free(viz);

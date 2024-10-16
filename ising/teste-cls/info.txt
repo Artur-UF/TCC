@@ -1,0 +1,60 @@
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1729113145
+L 50
+STEPS 10000
+RND 1
+TI 4.160000
+TF 2.269000
+dT -1.000000
+TRANS 5000
+dM 100
+
+Execution time: 4.392 s | 0.073 min | 0.001 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1729113149
+L 50
+STEPS 10000
+RND 1
+TI 4.160000
+TF 2.269000
+dT -1.000000
+TRANS 5000
+dM 100
+
+Execution time: 3.645 s | 0.061 min | 0.001 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1729113153
+L 50
+STEPS 10000
+RND 1
+TI 4.160000
+TF 2.269000
+dT -1.000000
+TRANS 5000
+dM 100
+
+Execution time: 3.622 s | 0.060 min | 0.001 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1729113155
+L 50
+STEPS 10000
+RND 1
+TI 4.160000
+TF 2.269000
+dT -1.000000
+TRANS 5000
+dM 100
+
+Execution time: 3.926 s | 0.065 min | 0.001 h
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1729113159
+L 50
+STEPS 10000
+RND 1
+TI 4.160000
+TF 2.269000
+dT -1.000000
+TRANS 5000
+dM 100
+
+Execution time: 4.223 s | 0.070 min | 0.001 h
