@@ -8,8 +8,4 @@ os.system('make out')
 
 for i in range(AMOSTRAS):
     os.system('./out')
-print()
-
-
-os.system('make clean')
 

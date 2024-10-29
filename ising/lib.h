@@ -38,4 +38,6 @@ int Hg(int *hksize, int *hg, int N);
 
 double lonelyspins(int *sys, int **fn, int N);
 
+double meansize(int *hksize, int N);
+
 #endif

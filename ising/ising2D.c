@@ -16,25 +16,26 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 */
 #include "lib.h"
 
-#define PASTA "teste-cls" // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define PASTA "teste-A" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
 #define L 50           // Aresta da Rede
 #define STEPS 10000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define IMG 0           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
-#define TI 4.16        // Temperatura inicial
-#define TF 2.269        // Temperatua final
-#define dT -1.0          // Delta T
+#define TI 2.8        // Temperatura inicial
+#define TF 2.1        // Temperatua final
+#define dT -0.02          // Delta T
 #define TRANS 5000      // Número de MCS para jogar fora (transiente)
 #define dM 100          // Passos entre medidas
 #define CR 0            // Gravar a Correlação espacial
-#define HK 2            // Identificar clusters: 0 não mede, 1 mede tudo, 2 mede só o Hg
+#define HK 3            // Identificar clusters: 0 não mede, 1 grava só Hg, 2 grava sistema e Hg, > 2 só aplpica HK
 #define SNAP 0          // Takes a snapshot of the moment
-#define CLS 1           // Saves the size of each cluster
+#define CLS 0           // Saves the size of each cluster
+#define A 1             // Measures the average cluster size bigger than 1
 #define MES 0           // 0 doesn't mesure Energy and Magnetization and time correlation
 #define N1 0            // Counts the number of isolated spins
-#define manT 1          // Set Temperature array manually
+#define manT 0          // Set Temperature array manually
 #define mT {4.16, 3.0, 2.269185}           // Temperature array
 #define sizemT 3        // Size of Temerature array if setted manually
 
@@ -84,7 +85,7 @@ int main(int argc, char *argv[]){
     }while(ok == 0);
 
     // Openning output files
-    char arkinfo[50], shared[70], saida1[150], saida2[150], saida3[150], saida4[150], saida5[150], saida6[150], saida7[150], saida8[150];
+    char arkinfo[50], shared[70], saida1[150], saida2[150], saida3[150], saida4[150], saida5[150], saida6[150], saida7[150], saida8[150], saida9[150];
     sprintf(shared, "L_%d_TI_%.2lf_TF_%.2lf_dT_%.2lf_STEPS_%d_RND_%d_TRANS_%d", L, TI, TF, dT, STEPS, RND, TRANS);
 
     sprintf(arkinfo,         "%s/info.txt", PASTA);
@@ -96,18 +97,20 @@ int main(int argc, char *argv[]){
     sprintf(saida6,     "%s/CLS_%s_%d.dat", PASTA, shared, seed);
     sprintf(saida7,    "%s/snap_%s_%d.dat", PASTA, shared, seed);
     sprintf(saida8,      "%s/n1_%s_%d.dat", PASTA, shared, seed);
+    sprintf(saida9,       "%s/A_%s_%d.dat", PASTA, shared, seed);
 
 
-    FILE *medidas, *img, *ci, *cr, *hk, *cls, *snap, *n1;
+    FILE *medidas, *img, *ci, *cr, *hk, *cls, *snap, *n1, *meanA;
 
-    if(MES)           medidas = fopen(saida1, "a");
-    if(IMG)           img = fopen(saida2, "w");
-    if(CI)            ci = fopen(saida3, "w");
-    if(CR > 0)        cr = fopen(saida4, "a");
-    if(HK > 0)        hk = fopen(saida5, "w");
-    if(CLS && HK > 0) cls = fopen(saida6, "w");
-    if(SNAP)          snap = fopen(saida7, "w");
-    if(N1)            n1 = fopen(saida8, "w");
+    if(MES)                medidas = fopen(saida1, "a");
+    if(IMG)                img = fopen(saida2, "w");
+    if(CI)                 ci = fopen(saida3, "w");
+    if(CR > 0)             cr = fopen(saida4, "a");
+    if(HK == 1 || HK == 2) hk = fopen(saida5, "w");
+    if(CLS && HK > 0)      cls = fopen(saida6, "w");
+    if(SNAP)               snap = fopen(saida7, "w");
+    if(N1)                 n1 = fopen(saida8, "w");
+    if(A)                  meanA = fopen(saida9, "w");
 
     FILE *info = fopen(arkinfo, "a");
 
@@ -211,16 +214,18 @@ int main(int argc, char *argv[]){
                 }
                 hoshenkopelman(sis, viz, hksis, hksize, N);
                 // Saves the Hg and the system with labeled clusters
-                fprintf(hk, "# %d %.4lf\n", Hg(hksize, hg, N), T[temp]);
-                if(HK == 1) for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
+                if(HK == 1 || HK == 2)fprintf(hk, "# %d %.4lf\n", Hg(hksize, hg, N), T[temp]);
+                if(HK == 2) for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
+                // Measures the mean size of clusters bigger than 1
+                if(A) fprintf(meanA, "%lf %lf\n", T[temp], meansize(hksize, N));
             }
             // Saves the size of each cluster
             if(CLS && s%dM == 0){
-                for(int i = 0; i < N; ++i) if(hksize[i] > 0) fprintf(cls, "%d %d\n", i, hksize[i]);
                 hoshenkopelman(sis, viz, hksis, hksize, N);
                 fprintf(cls, "# %d %.4lf\n", Hg(hksize, hg, N), T[temp]);
+                for(int i = 0; i < N; ++i) if(hksize[i] > 0) fprintf(cls, "%d %d\n", i, hksize[i]);
             }
-            if(N1) fprintf(n1, "%lf\n", lonelyspins(sis, viz, N)/N);
+            if(N1) fprintf(n1, "%lf %lf\n", T[temp], lonelyspins(sis, viz, N)/N);
         }
     }
     clock_t toc = clock();
@@ -252,14 +257,15 @@ int main(int argc, char *argv[]){
     if(MES != 0) free(s0);
     if(CR != 0) free(crr);
 
-    if(MES)           fclose(medidas);
-    if(IMG)           fclose(img);
-    if(CI)            fclose(ci);
-    if(CR > 0)        fclose(cr);
-    if(HK > 0)        fclose(hk);
-    if(CLS && HK > 0) fclose(cls);
-    if(SNAP)          fclose(snap);
-    if(N1)            fclose(n1);
+    if(MES)                fclose(medidas);
+    if(IMG)                fclose(img);
+    if(CI)                 fclose(ci);
+    if(CR > 0)             fclose(cr);
+    if(HK == 1 || HK == 2) fclose(hk);
+    if(CLS && HK > 0)      fclose(cls);
+    if(SNAP)               fclose(snap);
+    if(N1)                 fclose(n1);
+    if(A)                  fclose(meanA);
     fclose(info);
 
     return 0;

@@ -208,5 +208,18 @@ Counts the number of isolated spins of a system
     return n1;
 }
 
+double meansize(int *hksize, int N){
+/*
+ Averages the sizes of clusters bigger than 1
+ */
+    double A = 0., countclusters = 0.;
 
+    for(int i = 0; i < N; ++i){
+        if(hksize[i] > 1){
+            A += (double) hksize[i];
+            countclusters++;
+        }
+    }
+    return A/countclusters;
+}
 
