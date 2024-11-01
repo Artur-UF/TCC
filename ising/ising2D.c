@@ -16,18 +16,24 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 */
 #include "lib.h"
 
+
+//----------------INITIAL CONDITIONS---------------------------
 #define PASTA "teste-A" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
 #define L 50           // Aresta da Rede
 #define STEPS 10000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
-#define IMG 0           // Para gravar snapshots
-#define CI 0            // Para gravar a condição inicial
 #define TI 2.8        // Temperatura inicial
 #define TF 2.1        // Temperatua final
 #define dT -0.02          // Delta T
 #define TRANS 5000      // Número de MCS para jogar fora (transiente)
+#define manT 1          // Set Temperature array manually
+#define mT {4.16, 3.0, 2.269185}           // Temperature array
+#define sizemT 3        // Size of Temerature array if setted manually
+//----------------MEASUREMENTS---------------------------------
 #define dM 100          // Passos entre medidas
+#define IMG 0           // Para gravar snapshots
+#define CI 0            // Para gravar a condição inicial
 #define CR 0            // Gravar a Correlação espacial
 #define HK 3            // Identificar clusters: 0 não mede, 1 grava só Hg, 2 grava sistema e Hg, > 2 só aplpica HK
 #define SNAP 0          // Takes a snapshot of the moment
@@ -35,9 +41,8 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 #define A 1             // Measures the average cluster size bigger than 1
 #define MES 0           // 0 doesn't mesure Energy and Magnetization and time correlation
 #define N1 0            // Counts the number of isolated spins
-#define manT 0          // Set Temperature array manually
-#define mT {4.16, 3.0, 2.269185}           // Temperature array
-#define sizemT 3        // Size of Temerature array if setted manually
+#define DIST 1          // Generates a distribution of cluster sizes with logarithmic binning
+#define Nbins 200       // Number of bins for the distribution
 
 int main(int argc, char *argv[]){
     // Changing stack size for recursive function
@@ -85,7 +90,7 @@ int main(int argc, char *argv[]){
     }while(ok == 0);
 
     // Openning output files
-    char arkinfo[50], shared[70], saida1[150], saida2[150], saida3[150], saida4[150], saida5[150], saida6[150], saida7[150], saida8[150], saida9[150];
+    char arkinfo[50], shared[70], saida1[150], saida2[150], saida3[150], saida4[150], saida5[150], saida6[150], saida7[150], saida8[150], saida9[150], saida10[150];
     sprintf(shared, "L_%d_TI_%.2lf_TF_%.2lf_dT_%.2lf_STEPS_%d_RND_%d_TRANS_%d", L, TI, TF, dT, STEPS, RND, TRANS);
 
     sprintf(arkinfo,         "%s/info.txt", PASTA);
@@ -98,9 +103,10 @@ int main(int argc, char *argv[]){
     sprintf(saida7,    "%s/snap_%s_%d.dat", PASTA, shared, seed);
     sprintf(saida8,      "%s/n1_%s_%d.dat", PASTA, shared, seed);
     sprintf(saida9,       "%s/A_%s_%d.dat", PASTA, shared, seed);
+    sprintf(saida10,   "%s/DIST_%s_%d.dat", PASTA, shared, seed);
 
 
-    FILE *medidas, *img, *ci, *cr, *hk, *cls, *snap, *n1, *meanA;
+    FILE *medidas, *img, *ci, *cr, *hk, *cls, *snap, *n1, *meanA, *distri;
 
     if(MES)                medidas = fopen(saida1, "a");
     if(IMG)                img = fopen(saida2, "w");
@@ -111,6 +117,7 @@ int main(int argc, char *argv[]){
     if(SNAP)               snap = fopen(saida7, "w");
     if(N1)                 n1 = fopen(saida8, "w");
     if(A)                  meanA = fopen(saida9, "w");
+    if(DIST)               distri = fopen(saida10, "w");
 
     FILE *info = fopen(arkinfo, "a");
 
@@ -144,9 +151,11 @@ int main(int argc, char *argv[]){
     int *hksis = (int*)calloc(N, sizeof(int));
     int *hksize = (int*)malloc(N*sizeof(int));
     int *hg = (int*)calloc(N, sizeof(int));
+    double *histo = (double *)calloc(Nbins, sizeof(double));
+    double *binslims = logspace(log10(1), log10(N), Nbins);
 
     if(MES == 0) free(s0);
-    if(CR == 0) free(crr); 
+    if(CR == 0) free(crr);
 
     // Aplicando a Condição inicial
     if(RND) for(i = 0; i < N; ++i) sis[i] = (uniform(0., 1.) < .5) ? -1 : 1;
@@ -205,7 +214,7 @@ int main(int argc, char *argv[]){
                     ncr++;
                 }
             }
-            // AQUI FOI ANTECIPADO PARA FAZER MAIS MEDIDAS
+            // Geometric measurements
             if(HK > 0 && s%dM == 0){
                 // Saves a snapshot of the system 
                 if(SNAP){
@@ -226,6 +235,11 @@ int main(int argc, char *argv[]){
                 for(int i = 0; i < N; ++i) if(hksize[i] > 0) fprintf(cls, "%d %d\n", i, hksize[i]);
             }
             if(N1) fprintf(n1, "%lf %lf\n", T[temp], lonelyspins(sis, viz, N)/N);
+            /*if(DIST){ TERMINA AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                distribution(histo, hksize, binslims, Nbins, N);
+
+                for(int i = 0; i < Nbins; ++i) fprintf(distri, "\n", );
+            }*/
         }
     }
     clock_t toc = clock();
@@ -254,6 +268,7 @@ int main(int argc, char *argv[]){
     free(hksis);
     free(hksize);
     free(hg);
+    free(hist);
     if(MES != 0) free(s0);
     if(CR != 0) free(crr);
 
@@ -266,6 +281,7 @@ int main(int argc, char *argv[]){
     if(SNAP)               fclose(snap);
     if(N1)                 fclose(n1);
     if(A)                  fclose(meanA);
+    if(DIST)                fclose(distri);
     fclose(info);
 
     return 0;

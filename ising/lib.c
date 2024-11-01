@@ -56,7 +56,6 @@ int **vizinhos(int L){
         if(i>=N-L) mtzviz[i][3] = (i % L);
         else mtzviz[i][3] = i + L;
     }
-    
     return mtzviz;
 }
 
@@ -208,6 +207,7 @@ Counts the number of isolated spins of a system
     return n1;
 }
 
+
 double meansize(int *hksize, int N){
 /*
  Averages the sizes of clusters bigger than 1
@@ -221,5 +221,36 @@ double meansize(int *hksize, int N){
         }
     }
     return A/countclusters;
+}
+
+
+double *logspace(double a, double b, int n){
+/*
+ Creates an even-spaced array in log10 scale within the interval [a, b]
+*/
+    double *array = (double *)calloc(n, sizeof(double));
+    double a0 = log10(a), b0 = log10(b);
+    double ds = (b0-a0)/(n-1);
+    for(int i = 0; i < n; ++i) array[i] = pow(10, a0+(i*ds));
+    return array;
+}
+
+
+void distribution(double *bins, int *hksize, double *binlims, int bN, int N){
+/*
+ Creates a histogram of cluster sizes given the data and bin limits
+*/
+    double sizeaux, lastbin = 0.;
+    for(int i = 0; i < N; ++i){
+        sizeaux = log10(hksize[i]);
+        for(int j = 0; j < bN; ++j){
+            if(sizeaux < binlims[i] && sizeaux > lastbin){
+                bins[i]++;
+                break;
+            }
+            else lastbin = binlims[i];
+        }
+        lastbin = 0;
+    }
 }
 
