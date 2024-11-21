@@ -3,21 +3,15 @@
 
 int main(){
 
-    int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
-    for(int i = 0; i < 10; ++i){
-        printf("Dentro do %d\n", i);
-        for(int j = 0; j < 10; ++j){
-            if(i == j){
-                printf("%d\n", arr[i]);
-                break;
-            }
-        }
-        printf("saindo do %d\n", i);
-    }
+    int N = 250000;
+    int n = 100;
+    double *bins = logspace(pow(10, 1), pow(10, N), n);
+
+    printf("lims = %lf %lf\n", 1., 10.);
+    printf("log = %lf %lf\n", log10(1), log10(N));
+
+    for(int i = 0; i < n; ++i) printf("%.2lf\n", bins[i]);
 
     return 0;
 }
-
-
-

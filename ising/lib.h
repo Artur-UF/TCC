@@ -42,6 +42,4 @@ double meansize(int *hksize, int N);
 
 double *logspace(double a, double b, int n);
 
-void distribution(double *bins, int *hksize, double *binlims, int bN, int N);
-
 #endif

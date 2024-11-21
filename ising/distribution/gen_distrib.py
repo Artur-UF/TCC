@@ -1,21 +1,18 @@
 import os
 import fnmatch
 import numpy as np
-import sys
 
-L = 960
-n = 1000
+L = 500
+n = 200
 
-
-path = 'teste-cls'
-samples = fnmatch.filter(list(i.name for i in os.scandir(path)), 'CLS*')
+path = 'teste-distri'
+samples = fnmatch.filter(list(i.name for i in os.scandir(path)), 'DIST*')
 
 Tcount = []
 T = []
 D = []
-bins = np.logspace(np.log10(1), np.log10(L**2), n)
-print(bins)
-sys.exit()
+linbins = np.arange(0, L**2)
+logbins = np.logspace(np.log10(1), np.log10(L**2), n)
 
 newD = []
 
@@ -24,7 +21,7 @@ for file in samples:
         line = f.readline()
         while line != '':
             if line.split(' ')[0] == '#':
-                ttemp = float(line.split(' ')[2])
+                ttemp = float(line.split(' ')[1])
                 if ttemp not in T:
                     Tcount.append(1)
                     T.append(ttemp)
@@ -33,11 +30,12 @@ for file in samples:
                 else:
                     Tcount[T.index(ttemp)] += 1
             else:
-                tam = np.log10(int(line.split(' ')[1]))
+                tam = int(line.split(' ')[0])
+                freq = float(line.split(' ')[1].split(r'\n')[0])
                 for i in range(1, n):
-                    if bins[i-1] < tam <= bins[i]:
-                        newD[T.index(ttemp)][i] += 1
-                D[T.index(ttemp)][int(line.split(' ')[1])] += 1
+                    if logbins[i-1] < tam <= logbins[i]:
+                        newD[T.index(ttemp)][i] += freq
+                D[T.index(ttemp)][tam] += freq
             line = f.readline()
 
 for j in range(len(T)):
@@ -46,48 +44,13 @@ for j in range(len(T)):
 for j in range(len(T)):
     newD[j] = newD[j]/Tcount[j]
 
-zerocount = 0
-distcut = 200
-cut = 0
+for i in range(len(T)):
+    with open(f'linear-distribution-L_{L}_T_{T[i]}_.dat', 'w') as f:
+        for j in np.where(D[i] > 0)[0]:
+            if D[i][j] > 0:
+                f.write(f'{linbins[j]} {D[i][j]}\n')
 
-with open(f'Ndistribution-{L}.dat', 'w') as f:
-    for i in range(len(T)):
-        if i == len(T)-1:
-            f.write(f'{T[i]}\n')
-        else:
-            f.write(f'{T[i]} ')
-    for i in range(L**2):
-        for j in range(len(T)):
-            if j == len(T)-1:
-                f.write(f'{D[j][i]}\n')
-            else:
-                f.write(f'{D[j][i]} ')
-
-            # Cuts the unused bins
-            if D[j][i] == 0.0:
-                zerocount += 1
-            if D[j][i] > 0.0:
-                zerocount = 0
-            if zerocount > distcut:
-                break
-
-        else:
-            continue
-        break
-
-
-with open(f'log-distribution-{L}.dat', 'w') as f:
-    for i in range(len(T)):
-        if i == len(T)-1:
-            f.write(f'{T[i]}\n')
-        else:
-            f.write(f'{T[i]} ')
-    for i in range(n):
-        for j in range(len(T)):
-            if j == len(T)-1:
-                f.write(f'{newD[j][i]}\n')
-            else:
-                f.write(f'{newD[j][i]} ')
-
-
+    with open(f'log-distribution-L_{L}_T_{T[i]}_.dat', 'w') as f:
+        for j in np.where(newD[i] > 0)[0]:
+            f.write(f'{logbins[j]} {newD[i][j]}\n')
 

@@ -1,4 +1,5 @@
-/*
+:x
+:x
 Library with usefull functions for Monte Carlo and Ising-2D
 */
 #include"lib.h"
@@ -36,10 +37,10 @@ int **vizinhos(int L){
         mtzviz[n] = (int *)malloc(4*sizeof(int));
     }
     /*
-    mtzviz[0] - right
-    mtzviz[1] - up
-    mtzviz[2] - left
-    mtzviz[3] - down
+    mtzviz[i][0] - right
+    mtzviz[i][1] - up
+    mtzviz[i][2] - left
+    mtzviz[i][3] - down
     */
 
     for(int i = 0; i < N; ++i){  
@@ -233,24 +234,5 @@ double *logspace(double a, double b, int n){
     double ds = (b0-a0)/(n-1);
     for(int i = 0; i < n; ++i) array[i] = pow(10, a0+(i*ds));
     return array;
-}
-
-
-void distribution(double *bins, int *hksize, double *binlims, int bN, int N){
-/*
- Creates a histogram of cluster sizes given the data and bin limits
-*/
-    double sizeaux, lastbin = 0.;
-    for(int i = 0; i < N; ++i){
-        sizeaux = log10(hksize[i]);
-        for(int j = 0; j < bN; ++j){
-            if(sizeaux < binlims[i] && sizeaux > lastbin){
-                bins[i]++;
-                break;
-            }
-            else lastbin = binlims[i];
-        }
-        lastbin = 0;
-    }
 }
 

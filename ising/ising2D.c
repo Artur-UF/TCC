@@ -18,9 +18,9 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 
 
 //----------------INITIAL CONDITIONS---------------------------
-#define PASTA "teste-A" // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define PASTA "snapshot" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
-#define L 50           // Aresta da Rede
+#define L 500           // Aresta da Rede
 #define STEPS 10000      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define TI 2.8        // Temperatura inicial
@@ -28,25 +28,24 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 #define dT -0.02          // Delta T
 #define TRANS 5000      // Número de MCS para jogar fora (transiente)
 #define manT 1          // Set Temperature array manually
-#define mT {4.16, 3.0, 2.269185}           // Temperature array
-#define sizemT 3        // Size of Temerature array if setted manually
+#define mT {1., 2.}           // Temperature array
+#define sizemT 2        // Size of Temerature array if setted manually
 //----------------MEASUREMENTS---------------------------------
 #define dM 100          // Passos entre medidas
-#define IMG 0           // Para gravar snapshots
+#define IMG 1           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
 #define CR 0            // Gravar a Correlação espacial
 #define HK 3            // Identificar clusters: 0 não mede, 1 grava só Hg, 2 grava sistema e Hg, > 2 só aplpica HK
 #define SNAP 0          // Takes a snapshot of the moment
 #define CLS 0           // Saves the size of each cluster
-#define A 1             // Measures the average cluster size bigger than 1
+#define A 0             // Measures the average cluster size bigger than 1
 #define MES 0           // 0 doesn't mesure Energy and Magnetization and time correlation
 #define N1 0            // Counts the number of isolated spins
-#define DIST 1          // Generates a distribution of cluster sizes with logarithmic binning
-#define Nbins 200       // Number of bins for the distribution
+#define DIST 0          // Generates a distribution of cluster sizes with logarithmic binning
 
 int main(int argc, char *argv[]){
     // Changing stack size for recursive function
-    const rlim_t kStackSize = 32L * 1024L * 1024L;   // min stack size = 16 Mb
+    const rlim_t kStackSize = 50L * 1024L * 1024L;   // min stack size = 16 Mb
     struct rlimit rl;
     int result;
     result = getrlimit(RLIMIT_STACK, &rl);
@@ -106,7 +105,7 @@ int main(int argc, char *argv[]){
     sprintf(saida10,   "%s/DIST_%s_%d.dat", PASTA, shared, seed);
 
 
-    FILE *medidas, *img, *ci, *cr, *hk, *cls, *snap, *n1, *meanA, *distri;
+    FILE *medidas, *img, *ci, *cr, *hk, *cls, *snap, *n1, *meanA, *fdistri;
 
     if(MES)                medidas = fopen(saida1, "a");
     if(IMG)                img = fopen(saida2, "w");
@@ -117,7 +116,7 @@ int main(int argc, char *argv[]){
     if(SNAP)               snap = fopen(saida7, "w");
     if(N1)                 n1 = fopen(saida8, "w");
     if(A)                  meanA = fopen(saida9, "w");
-    if(DIST)               distri = fopen(saida10, "w");
+    if(DIST)               fdistri = fopen(saida10, "w");
 
     FILE *info = fopen(arkinfo, "a");
 
@@ -151,8 +150,7 @@ int main(int argc, char *argv[]){
     int *hksis = (int*)calloc(N, sizeof(int));
     int *hksize = (int*)malloc(N*sizeof(int));
     int *hg = (int*)calloc(N, sizeof(int));
-    double *histo = (double *)calloc(Nbins, sizeof(double));
-    double *binslims = logspace(log10(1), log10(N), Nbins);
+    double *distri = (double *)calloc(N, sizeof(double));
 
     if(MES == 0) free(s0);
     if(CR == 0) free(crr);
@@ -174,9 +172,7 @@ int main(int argc, char *argv[]){
         E = (double) energia(sis, viz, N, 1);
         for(s = 0; s < TRANS; ++s){ //Loop sobre passos de Monte Carlo
             //MCS
-            for(j = 0; j < N; ++j){
-                metropolis(sis, viz, &E, expBeta, J, j);
-            }
+            for(j = 0; j < N; ++j) metropolis(sis, viz, &E, expBeta, J, j);
             // se quiser gravar o transiente vc faria aqui
         }
         // Fim do loop transiente
@@ -187,6 +183,8 @@ int main(int argc, char *argv[]){
             m0 = magnetizacao(sis, N);
         }
 
+        if(DIST) fprintf(fdistri, "# %.4lf\n", T[temp]);
+ 
         // Roda STEPS de MCS no equilíbrio
         for(s = 0; s < STEPS; ++s){
             //MCS
@@ -215,31 +213,37 @@ int main(int argc, char *argv[]){
                 }
             }
             // Geometric measurements
-            if(HK > 0 && s%dM == 0){
-                // Saves a snapshot of the system 
-                if(SNAP){
-                    for(int i = 0; i < N; ++i) fprintf(snap, "%d\n", sis[i]);
-                    fprintf(snap, "0\n");
+            if(s%dM == 0){
+                if(HK > 0){
+                    // Saves a snapshot of the system 
+                    if(SNAP){
+                        for(int i = 0; i < N; ++i) fprintf(snap, "%d\n", sis[i]);
+                        fprintf(snap, "0\n");
+                    }
+                    hoshenkopelman(sis, viz, hksis, hksize, N);
+                    // Saves the Hg and the system with labeled clusters
+                    if(HK == 1 || HK == 2)fprintf(hk, "# %d %.4lf\n", Hg(hksize, hg, N), T[temp]);
+                    if(HK == 2) for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
+                    // Measures the mean size of clusters bigger than 1
+                    if(A) fprintf(meanA, "%lf %lf\n", T[temp], meansize(hksize, N));
                 }
-                hoshenkopelman(sis, viz, hksis, hksize, N);
-                // Saves the Hg and the system with labeled clusters
-                if(HK == 1 || HK == 2)fprintf(hk, "# %d %.4lf\n", Hg(hksize, hg, N), T[temp]);
-                if(HK == 2) for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
-                // Measures the mean size of clusters bigger than 1
-                if(A) fprintf(meanA, "%lf %lf\n", T[temp], meansize(hksize, N));
+                // Saves the size of each cluster
+                if(CLS){
+                    hoshenkopelman(sis, viz, hksis, hksize, N);
+                    fprintf(cls, "# %d %.4lf\n", Hg(hksize, hg, N), T[temp]);
+                    for(int i = 0; i < N; ++i) if(hksize[i] > 0) fprintf(cls, "%d %d\n", i, hksize[i]);
+                }
+                if(N1) fprintf(n1, "%lf %lf\n", T[temp], lonelyspins(sis, viz, N)/N);
+                if(DIST) for(int i = 0; i < N; i++) if(hksize[i] > 0) distri[hksize[i]] += 1.;
             }
-            // Saves the size of each cluster
-            if(CLS && s%dM == 0){
-                hoshenkopelman(sis, viz, hksis, hksize, N);
-                fprintf(cls, "# %d %.4lf\n", Hg(hksize, hg, N), T[temp]);
-                for(int i = 0; i < N; ++i) if(hksize[i] > 0) fprintf(cls, "%d %d\n", i, hksize[i]);
+        }
+        if(DIST){
+            for(int i = 0; i < N; ++i){
+                if(distri[i] > 0.){
+                    fprintf(fdistri, "%d %lf\n", i, distri[i]/((double) STEPS/dM));
+                    distri[i] = 0.;
+                }
             }
-            if(N1) fprintf(n1, "%lf %lf\n", T[temp], lonelyspins(sis, viz, N)/N);
-            /*if(DIST){ TERMINA AQUI !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                distribution(histo, hksize, binslims, Nbins, N);
-
-                for(int i = 0; i < Nbins; ++i) fprintf(distri, "\n", );
-            }*/
         }
     }
     clock_t toc = clock();
@@ -268,7 +272,7 @@ int main(int argc, char *argv[]){
     free(hksis);
     free(hksize);
     free(hg);
-    free(hist);
+    free(distri);
     if(MES != 0) free(s0);
     if(CR != 0) free(crr);
 
@@ -281,7 +285,7 @@ int main(int argc, char *argv[]){
     if(SNAP)               fclose(snap);
     if(N1)                 fclose(n1);
     if(A)                  fclose(meanA);
-    if(DIST)                fclose(distri);
+    if(DIST)               fclose(fdistri);
     fclose(info);
 
     return 0;
