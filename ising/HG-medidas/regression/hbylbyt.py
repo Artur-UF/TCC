@@ -12,24 +12,27 @@ Ts = list(float(i) for i in Ts)
 tc = 2.269
 t3 = 2.567
 
-fig, ax = plt.subplots(1, 2, figsize=(20, 10), layout='constrained')
+plt.figure(1, figsize=(10, 10), layout='constrained')
 
-plt.subplot(121)
 def func1(x, a, b):
     return a*x + b
 
-plt.scatter(Ls1, Hs, c='k', s=300, marker='*')
+plt.plot(Ls1, Hs, c='k', markersize=20, marker='*', linestyle='dashed')
 pr, pcov = opt.curve_fit(func1, Ls1, Hs)
-x = np.linspace(Ls1[0], Ls1[-1], 500)
-plt.plot(x, func1(x, pr[0], pr[1]), c='gray', linestyle='dashed', label=rf'$f(L) = ({pr[0]:.2f})L {pr[1]:.2f}$', zorder=0)
+x = np.linspace(3.1, 3.35, 200)
+plt.plot(x, func1(x, 0.98, -0.04), c='g', linestyle='solid', label=rf'Ising', zorder=0)
+plt.plot(x, func1(x, 0.97, -0.065), c='b', linestyle='solid', label=rf'Percolação', zorder=0)
 
+plt.legend(fontsize=25)
 plt.ylabel(r'$\log H^*$')
 plt.xlabel(r'$\log L$')
 plt.yticks([2.9, 3.1, 3.3], [2.9, 3.1, 3.3])
 plt.xticks([3, 3.3, 3.6], [3, 3.3, 3.6])
 
+plt.savefig('hxl.png', dpi=400)
 
-plt.subplot(122)
+fig, ax = plt.subplots(1, 1, figsize=(10, 10), layout='constrained')
+
 xup = -2.8
 xdo = -7
 
@@ -58,6 +61,10 @@ plt.xlim(xdo, xup)
 plt.ylabel(r'$T^*$')
 plt.xlabel(r'$\log 1/L$')
 
-plt.savefig('hxlxt.png', dpi=400)
+ax.annotate(r'$L=3500$', xy=(np.log10(Ls2)[-1], Ts[-1]), xycoords='data', xytext=(-5, 3.5), textcoords='data', va='top', ha='left',
+               fontsize=20, arrowprops=dict(facecolor='black', width=1.))
+
+
+plt.savefig('hxt.png', dpi=400)
 
 

@@ -2,7 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
-plt.rcParams.update({"text.usetex" : True, "font.family" : "serif", "font.serif" : ["Computer Modern Serif"], "font.size" : 30})
+plt.rcParams.update({"text.usetex" : True, "font.family" : "serif", "font.serif" : ["Computer Modern Serif"], "font.size" : 25})
 
 
 colors = ['b', 'g', 'r', 'purple', 'orange', 'magenta']
@@ -14,7 +14,7 @@ def labelL(i, L):
     else:
         return f'\t{L}'
 
-fig, ax = plt.subplots(1, 2, figsize=(19, 7), layout='constrained')
+fig, ax = plt.subplots(1, 2, figsize=(20, 8), layout='constrained')
 
 plt.rc('axes', titlesize=30, labelsize=27)
 plt.subplot(121)
@@ -35,7 +35,7 @@ colors1 = ['g', 'brown', 'olive']
 for i in range(len(L)):
     plt.plot(T[i], Hntc[i], linewidth=.5, color=colors1[i], marker=markers[i], markersize=8, label=labelL(i, L[i]))
 plt.vlines(2.269, 0, max(Hntc[-1])+25, colors='k', linestyle='dashed', linewidth=.7)
-plt.legend()
+plt.legend(fontsize=20)
 #plt.xscale('log')
 plt.xlabel(r'$T$')
 plt.ylabel(r'$H$')
@@ -43,7 +43,11 @@ plt.ylim(0, 500) #max(Hntc[-1])+30)
 plt.xlim(2.1, 2.4)
 plt.yticks([0, 100, 300, 500], [0, 100, 300, 500])
 plt.xticks([2.1, 2.20, 2.269, 2.30, 2.40], [2.10, 2.20, r'$T_c$', 2.30, 2.40])
-#plt.grid()
+
+# place a text box in upper left in axes coords
+plt.text(2.11, 300, '(a)')
+ 
+
 
 plt.subplot(122)
 
@@ -63,7 +67,7 @@ for l in range(len(L)):
 for i in range(len(L)):
     plt.plot(T[i], H[i], linewidth=.5, color=colors[i], marker=markers[i], markersize=8, label=labelL(i, L[i]))
 plt.vlines(2.269, 0, max(H[-1])+25, colors='k', linestyle='dashed', linewidth=.7)
-plt.legend()
+plt.legend(loc='upper right', ncols=1, fontsize=20)
 ax[1].add_patch(Rectangle((2.1, 0), 0.3, 500, ec='k', fc='none'))
 plt.xlabel(r'$T$')
 plt.ylabel(r'$H$')
@@ -71,6 +75,7 @@ plt.ylim(0, max(H[-1])+30)
 plt.yticks([0, 400, 800, 1200], [0, 400, 800, 1200])
 plt.xticks([1, 2.269, 3,  5, 7, 9], [1, r'$T_{c}$', 3, 5, 7, 9])
 #plt.grid()
-
+plt.text(1., 710, '(b)')
+ 
 plt.savefig('hg-full.png', dpi=500)
 

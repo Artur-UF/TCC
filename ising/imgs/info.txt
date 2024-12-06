@@ -1,0 +1,14 @@
+-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*
+SEED 1733271143
+L 50
+STEPS 1
+RND 1
+TI 3.000000
+TF 1.000000
+dT -0.020000
+TRANS 5000
+dM 1
+manT 1
+sizemT 1
+
+Execution time: 0.259 s | 0.004 min | 0.000 h

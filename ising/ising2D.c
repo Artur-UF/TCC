@@ -18,25 +18,25 @@ ELE NÃO CRIA A PASTA, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 
 
 //----------------INITIAL CONDITIONS---------------------------
-#define PASTA "snapshot" // Define o nome da pasta na qual serão guardados os arquivos de saída 
+#define PASTA "imgs" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
-#define L 500           // Aresta da Rede
-#define STEPS 10000      // Número de MCS no equilíbrio
+#define L 50           // Aresta da Rede
+#define STEPS 1      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
-#define TI 2.8        // Temperatura inicial
-#define TF 2.1        // Temperatua final
+#define TI 3.0        // Temperatura inicial
+#define TF 1.0        // Temperatua final
 #define dT -0.02          // Delta T
 #define TRANS 5000      // Número de MCS para jogar fora (transiente)
 #define manT 1          // Set Temperature array manually
-#define mT {1., 2.}           // Temperature array
-#define sizemT 2        // Size of Temerature array if setted manually
+#define mT {2.55555}           // Temperature array
+#define sizemT 1        // Size of Temerature array if setted manually
 //----------------MEASUREMENTS---------------------------------
-#define dM 100          // Passos entre medidas
-#define IMG 1           // Para gravar snapshots
+#define dM 1          // Passos entre medidas
+#define IMG 0           // Para gravar snapshots
 #define CI 0            // Para gravar a condição inicial
 #define CR 0            // Gravar a Correlação espacial
-#define HK 3            // Identificar clusters: 0 não mede, 1 grava só Hg, 2 grava sistema e Hg, > 2 só aplpica HK
-#define SNAP 0          // Takes a snapshot of the moment
+#define HK 2            // Identificar clusters: 0 não mede, 1 grava só Hg, 2 grava sistema e Hg, > 2 só aplpica HK
+#define SNAP 1          // Takes a snapshot of the moment
 #define CLS 0           // Saves the size of each cluster
 #define A 0             // Measures the average cluster size bigger than 1
 #define MES 0           // 0 doesn't mesure Energy and Magnetization and time correlation
@@ -107,7 +107,7 @@ int main(int argc, char *argv[]){
 
     FILE *medidas, *img, *ci, *cr, *hk, *cls, *snap, *n1, *meanA, *fdistri;
 
-    if(MES)                medidas = fopen(saida1, "a");
+    if(MES)                medidas = fopen(saida1, "w");
     if(IMG)                img = fopen(saida2, "w");
     if(CI)                 ci = fopen(saida3, "w");
     if(CR > 0)             cr = fopen(saida4, "a");
@@ -182,6 +182,7 @@ int main(int argc, char *argv[]){
             for(i = 0; i < N; ++i) s0[i] = sis[i];
             m0 = magnetizacao(sis, N);
         }
+        if(MES > 0) fprintf(medidas, "# %.4lf\n", T[temp]);
 
         if(DIST) fprintf(fdistri, "# %.4lf\n", T[temp]);
  
@@ -201,9 +202,9 @@ int main(int argc, char *argv[]){
             }
 
             // Medidas
-            if(MES > 0){
+            if(MES > 0 && s%dM == 0){
                 mt = magnetizacao(sis, N);
-                fprintf(medidas, "%d\t%lf\t%lf\t%lf\n", t, E/N, mt, corrtemp(s0, sis, m0, mt, N));
+                fprintf(medidas, "%lf %lf %lf\n", E/N, mt, corrtemp(s0, sis, m0, mt, N));
                 if((CR > 0) && (ncr < CR) && (s%stepcr == 0)){
                     corresp(crr, sis, viz, N, L, mt);
                     for(int l  = 0; l < L/2; ++l) fprintf(cr, "%d\t%lf\n", l+1, crr[l]);
@@ -249,8 +250,7 @@ int main(int argc, char *argv[]){
     clock_t toc = clock();
     double time = (double)(toc-tic)/CLOCKS_PER_SEC;
 
-    //_________________________________FIM DA SIMULAÇÃO_____________________________________________ 
-    if(MES) fprintf(medidas, "-1\t-1\t-1\t-1\n"); 
+    //_________________________________FIM DA SIMULAÇÃO_____________________________________________
 
     fprintf(info, "-*-*-*-*-*-*-| NEW RUN |-*-*-*-*-*-*-*-*-*\n");
     fprintf(info,    "SEED %d\n", seed);

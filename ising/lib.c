@@ -1,5 +1,4 @@
-:x
-:x
+/*
 Library with usefull functions for Monte Carlo and Ising-2D
 */
 #include"lib.h"

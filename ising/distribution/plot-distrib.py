@@ -18,8 +18,8 @@ for i in range(len(log_files)):
     plt.plot(sizes, freq, marker='>', label=f'T = {T:.2f}')
 
 plt.title(f'L = {L}')
-plt.yscale('log')
-plt.xscale('log')
+#plt.yscale('log')
+#plt.xscale('log')
 plt.xlabel('A')
 plt.legend()
 plt.savefig(f'log_dist_L_{L}.png', dpi=400)
@@ -33,8 +33,8 @@ for i in range(len(lin_files)):
     plt.plot(sizes[:cut], freq[:cut], marker='<', label=f'T = {T:.2f}')
 
 x = np.linspace(1, 500, 200)
-y = x**(-187/91)*12000
-y2 = x**(-1.66)*40000
+y = x**(-187/91)*7000
+y2 = x**(-1.66)*20000
 plt.plot(x, y, label=r'$A^{-187/91}$')
 plt.plot(x, y2, label=r'$A^{-1.66}$')
 

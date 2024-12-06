@@ -17,47 +17,55 @@ for i in range(len(files)):
 
 plt.subplot(121)
 T, A = np.loadtxt(files[2], unpack=True)
-plt.plot(T, A, c=colors[2], marker=markers[2], markersize=2, label=f'L = 320')
+plt.plot(T, A, c=colors[2], marker=markers[2], markersize=3, label=f'L = 320')
 
 T, A = np.loadtxt(files[1], unpack=True)
-plt.plot(T, A, c=colors[1], marker=markers[1], markersize=2, label=f'1000')
+plt.plot(T, A, c=colors[1], marker=markers[1], markersize=3, label=f'1000')
 
 T, A = np.loadtxt(files[0], unpack=True)
-plt.plot(T, A, c=colors[0], marker=markers[0], markersize=2, label=f'1500')
+plt.plot(T, A, c=colors[0], marker=markers[0], markersize=3, label=f'1500')
 
 plt.ylabel(r'$\left \langle A \right \rangle $')
 plt.xlabel(r'$T$')
-plt.legend()
+plt.legend(fontsize=15)
 plt.vlines([2.2691, 2.567], 60, 100, linestyles='dashed', colors=['k', 'gray'], linewidth=.7, zorder=1)
 plt.yticks([60, 70, 80, 90, 100], [60, 70, 80, 90, 100])
+plt.xticks([2.1, 2.269, 2.4, 2.567, 2.8], [2.1, r'$T_c$', 2.4, r'$T_3$', 2.8])
 plt.ylim(60, 100)
 plt.xlim(2.1, 2.8)
+plt.text(2.11, 98, '(a)')
+
+
 
 plt.subplot(122)
 T, A = np.loadtxt(files[2], unpack=True)
-plt.plot(T, np.gradient(np.gradient(A)), c=colors[2], marker=markers[2], markersize=2, label=f'L = 320')
+plt.plot(T, np.gradient(np.gradient(A)), c=colors[2], marker=markers[2], markersize=3, label=f'L = 320')
 
 T, A = np.loadtxt(files[1], unpack=True)
-plt.plot(T, np.gradient(np.gradient(A)), c=colors[1], marker=markers[1], markersize=2, label=f'1000')
+plt.plot(T, np.gradient(np.gradient(A)), c=colors[1], marker=markers[1], markersize=3, label=f'1000')
 
 T, A = np.loadtxt(files[0], unpack=True)
-plt.plot(T, np.gradient(np.gradient(A)), c=colors[0], marker=markers[0], markersize=2, label=f'1500')
+plt.plot(T, np.gradient(np.gradient(A)), c=colors[0], marker=markers[0], markersize=3, label=f'1500')
 
 plt.ylabel(r'$d^2\left \langle A \right \rangle/dT^2$')
 plt.xlabel(r'$T$')
-plt.legend()
+plt.legend(fontsize=15)
 plt.hlines(0, 2.1, 2.8, colors='k', linewidth=.9, zorder=0)
 plt.vlines([2.2691, 2.567], -0.3, 0.6, linestyles='dashed', colors=['k', 'gray'], linewidth=.7, zorder=1)
 plt.yticks([-0.3, -0.1, 0, 0.2, 0.5], [-0.3, -0.1, 0, 0.2, 0.5])
+plt.xticks([2.1, 2.269, 2.4, 2.567, 2.8], [2.1, r'$T_c$', 2.4, r'$T_3$', 2.8])
 plt.ylim(-0.3, 0.6)
 plt.xlim(2.1, 2.8)
+plt.text(2.11, 0.55, '(b)')
+
+
 
 left, bottom, width, height = [0.736, 0.5, 0.2, 0.2]
 ax2 = fig.add_axes([left, bottom, width, height])
 
 t, a = np.loadtxt('zoom-A-320.dat', unpack=True)
 cut = 2
-ax2.plot(t[cut:-cut], np.gradient(np.gradient(a))[cut:-cut], c=colors[2])
+ax2.plot(t[cut:-cut], np.gradient(np.gradient(a))[cut:-cut], c=colors[2], marker=markers[2], markersize=3)
 ax2.vlines(2.567, -0.1, 0.05, linestyles='dashed', colors='gray', linewidth=.7, zorder=1)
 ax2.set(ylim=(-0.1, 0.05), xlim=(2.4, 2.7))
 ax2.hlines(0, 2.4, 2.7, colors='k', linewidth=.9, zorder=0)
