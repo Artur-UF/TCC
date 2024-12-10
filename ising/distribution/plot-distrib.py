@@ -3,7 +3,7 @@ import numpy as np
 from glob import glob
 plt.rcParams.update({"text.usetex" : True, "font.family" : "serif", "font.serif" : ["Computer Modern Serif"], "font.size" : 15})
 
-L = 640
+L = 1000
 
 path = f'distri-{L}'
 
@@ -18,8 +18,8 @@ for i in range(len(log_files)):
     plt.plot(sizes, freq, marker='>', label=f'T = {T:.2f}')
 
 plt.title(f'L = {L}')
-#plt.yscale('log')
-#plt.xscale('log')
+plt.yscale('log')
+plt.xscale('log')
 plt.xlabel('A')
 plt.legend()
 plt.savefig(f'log_dist_L_{L}.png', dpi=400)

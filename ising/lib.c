@@ -235,3 +235,81 @@ double *logspace(double a, double b, int n){
     return array;
 }
 
+void mc_winding(int qual, int *hk, int **nmtx, FILE *fout) {
+    int i=0,dir,ok,sitesonhull=0,endofwalk,firststep;
+
+    // Direction (dir): 0 (up), 1 (left), 2 (down), 3 (right)
+    endofwalk = 0;
+    dir = 3;
+    i = qual;
+    firststep = 1;
+    while (!endofwalk){
+        ok = 0;
+        dir = (dir+1)%4;  /* from the incoming direction, try left first */
+        while (!ok){ /* from the incoming direction: try right, in front, left and backwards */
+	    switch (dir){
+		case 0:
+		    if (lab[nmtx[i][1]]==lab[i]){
+		        ok = 1;
+            	        i = nmtx[i][1];
+            	    }
+            	    else{
+			if ((i==qual) && (!firststep)){
+			    fprintf(fout,"# END %d\n\n",sitesonhull);
+            	            fflush(fout);
+            	            return;
+			}
+            	        fprintf(fout,"%d %d\n",sitesonhull,i);
+            	        ++sitesonhull;
+            	        firststep = 0;
+            	        }
+            	    break;
+            	case 1:
+		    if (lab[nmtx[i][2]]==lab[i]) {
+			ok = 1;
+			i = nmtx[i][2];
+            	    }
+            	    else{
+			fprintf(fout,"%d %d\n",sitesonhull,i);
+            	    	++sitesonhull;
+            	    }
+            	    break;
+            	case 2:
+		    if (lab[nmtx[i][3]]==lab[i]) {
+			ok = 1;
+            	    	i = nmtx[i][3];
+            	    }
+            	    else{
+			fprintf(fout,"%d %d\n",sitesonhull,i);
+            	     	++sitesonhull;
+            	    }
+            	    break;
+            	case 3:
+		    if (lab[nmtx[i][0]]==lab[i]) {
+			ok = 1;
+            	    	i = nmtx[i][0];
+            	    }
+          	    else{
+			fprintf(fout,"%d %d\n",sitesonhull,i);
+            	    	++sitesonhull;
+            	    }
+            	    break;
+	    }
+	    if (ok==0) dir = (dir + 3)%4;
+	}
+        firststep = 0;
+    }
+
+    fprintf(fout,"# END %d\n\n",sitesonhull);
+    fflush(fout);
+    return;
+}
+
+void perimeter_h(int *hk, int **nmtx){
+
+
+
+}
+
+
+

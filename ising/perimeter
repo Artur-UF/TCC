@@ -1,0 +1,74 @@
+/*************************************************************************
+* The site "qual" labels the largest non percolating cluster (checked in *
+* the main program).                                                     *
+*                                                                        *
+*************************************************************************/
+void mc_winding(int qual, int *lab, int *ss, int *right, int *left, int *up, int *down, FILE *fout) {
+    int i=0,dir,ok,sitesonhull=0,endofwalk,firststep;
+
+    // Direction (dir): 0 (up), 1 (left), 2 (down), 3 (right)
+    endofwalk = 0;
+    dir = 3;
+    i = qual;
+    firststep = 1;
+    while (!endofwalk){
+        ok = 0;
+        dir = (dir+1)%4;  /* from the incoming direction, try left first */
+        while (!ok){ /* from the incoming direction: try right, in front, left and backwards */
+	    switch (dir){
+		case 0:
+		    if (lab[up[i]]==lab[i]){
+		          ok = 1; 
+            	         i = up[i]; 
+            	    }
+            	    else{
+			if ((i==qual) && (!firststep)){
+			    fprintf(fout,"# END %d\n\n",sitesonhull);
+            	            fflush(fout);
+            	            return;
+			}
+            	        fprintf(fout,"%d %d\n",sitesonhull,i);
+            	        ++sitesonhull;
+            	        firststep = 0;
+            	        }
+            	    break;
+            	case 1:
+		    if (lab[left[i]]==lab[i]) {
+			ok = 1; 
+			i = left[i]; 
+            	    }
+            	    else{
+			fprintf(fout,"%d %d\n",sitesonhull,i);
+            	    	++sitesonhull;
+            	    }
+            	    break;
+            	case 2:
+		    if (lab[down[i]]==lab[i]) {
+			ok = 1; 
+            	    	i = down[i]; 
+            	    }
+            	    else{
+			fprintf(fout,"%d %d\n",sitesonhull,i);
+            	     	++sitesonhull;
+            	    } 
+            	    break;
+            	case 3:
+		    if (lab[right[i]]==lab[i]) {
+			ok = 1;
+            	    	i = right[i];
+            	    }
+          	    else{
+			fprintf(fout,"%d %d\n",sitesonhull,i);
+            	    	++sitesonhull;
+            	    }
+            	    break;
+	    }
+	    if (ok==0) dir = (dir + 3)%4;
+	}
+        firststep = 0;
+    }
+
+    fprintf(fout,"# END %d\n\n",sitesonhull);
+    fflush(fout);
+    return;
+}
