@@ -2,8 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from glob import glob
 
-L = 2240
-Tp = 3.55
+L = 1920 
+Tp = 3.62
 
 files = glob(f'hg-distri_{L}*')
 
