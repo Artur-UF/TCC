@@ -24,8 +24,8 @@ double uniform(double min, double max) {
     */
     double random  = ((double) rand()) / RAND_MAX;
     double range = (max - min) * random;
-    double n = range + min;	
-    
+    double n = range + min;
+
     return n;
 }
 
@@ -153,7 +153,7 @@ void unionfind(int i, int j, int *hk, int **viz){
 Decides wich label to use and then calls a recursive function
 to change the label
 */
-    
+
     if(hk[i] > hk[j]) recurlabel(hk, viz, i, hk[i], hk[j]);
     if(hk[i] < hk[j]) recurlabel(hk, viz, j, hk[j], hk[i]);
 }
@@ -235,7 +235,8 @@ double *logspace(double a, double b, int n){
     return array;
 }
 
-void mc_winding(int qual, int *hk, int **nmtx, FILE *fout) {
+int mc_winding(int qual, int *hk, int **nmtx, int size){
+    if(size == 1) return 4;
     int i=0,dir,ok,sitesonhull=0,endofwalk,firststep;
 
     // Direction (dir): 0 (up), 1 (left), 2 (down), 3 (right)
@@ -243,13 +244,10 @@ void mc_winding(int qual, int *hk, int **nmtx, FILE *fout) {
     dir = 3;
     i = qual;
     firststep = 1;
-    printf("OI\n");
     while (!endofwalk){
         ok = 0;
-        printf("OI 2\n");
         dir = (dir+1)%4;  // from the incoming direction, try left first
         while (!ok){ // from the incoming direction: try right, in front, left and backwards
-	    //printf("OI 3\n");
             switch (dir){
 		case 0:
                     if(hk[nmtx[i][1]] == hk[i]){
@@ -260,22 +258,17 @@ void mc_winding(int qual, int *hk, int **nmtx, FILE *fout) {
                         if((i==qual) && (!firststep)){
                             endofwalk = 1;
                             break;
-                            //fprintf(fout,"# END %d\n\n",sitesonhull);
-                            //fflush(fout);
-            	            //return;
 			}
-            	        //fprintf(fout,"%d %d\n",sitesonhull,i);
             	        ++sitesonhull;
-            	        firststep = 0;
+                        firststep = 0;
             	    }
             	    break;
             	case 1:
 		    if(hk[nmtx[i][2]] == hk[i]) {
 			ok = 1;
-			i = nmtx[i][2];
+ 	        	i = nmtx[i][2];
             	    }
             	    else{
-			//fprintf(fout,"%d %d\n",sitesonhull,i);
             	    	++sitesonhull;
             	    }
             	    break;
@@ -285,7 +278,6 @@ void mc_winding(int qual, int *hk, int **nmtx, FILE *fout) {
             	    	i = nmtx[i][3];
             	    }
             	    else{
-			//fprintf(fout,"%d %d\n",sitesonhull,i);
             	     	++sitesonhull;
             	    }
             	    break;
@@ -295,19 +287,14 @@ void mc_winding(int qual, int *hk, int **nmtx, FILE *fout) {
             	    	i = nmtx[i][0];
             	    }
           	    else{
-			//fprintf(fout,"%d %d\n",sitesonhull,i);
             	    	++sitesonhull;
             	    }
             	    break;
 	    }
 	    if(ok==0) dir = (dir + 3)%4;
 	}
-        //firststep = 0;
     }
-    printf("TCHAU\n");
-    fprintf(fout,"%d %d\n",sitesonhull, qual);
-    fflush(fout);
-    return;
+    return sitesonhull;
 }
 
 
@@ -321,5 +308,27 @@ int find_biggest_cluster(int *hksize, int N){
     }
     return label;
 }
+
+void find_non_percolating_clusters(int *nonperc, int *hk, int *hksize, int **nmtx, int L){
+    for(int i = 0; i < L*L; i++) nonperc[i] = hksize[i];
+
+    int i = 0, dir = 1;
+
+    for(int j = 0; j < 4*(L-1); ++j){
+        nonperc[hk[i]] = 0;
+        if(i%(L-1) == 0){
+            dir = (dir+3)%4;
+        }
+        i = nmtx[i][dir];
+    }
+    return;
+}
+
+int hull_H(int *hullsize, int N){
+    int hullH = 0;
+    for(int i = 0; i < N; i++) if(hullsize[i] > 0) hullH++;
+    return hullH;
+}
+
 
 

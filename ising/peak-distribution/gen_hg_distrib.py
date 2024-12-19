@@ -3,11 +3,11 @@ import os
 import numpy as np
 
 L = 3500
+Tp = 3.3
 
 path = f'dense-hg-{L}/'
 samples = fnmatch.filter(list(i.name for i in os.scandir(path)), 'HK*')
 
-Tp = 3.3
 
 bins = np.zeros(L)
 c = 0

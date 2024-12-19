@@ -20,15 +20,15 @@ ELE NÃO CRIA A FOLDER, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 //----------------INITIAL CONDITIONS---------------------------
 #define FOLDER "imgs" // Define o nome da pasta na qual serão guardados os arquivos de saída 
 #define SEED 0          // Define a Seed: se 0 pega do relogio do sistema
-#define L 10           // Aresta da Rede
+#define L 500           // Aresta da Rede
 #define STEPS 1      // Número de MCS no equilíbrio
 #define RND 1           // 0: inicialização da rede toda com spin 1 || 1: inicialização aleatória da rede
 #define TI 3.0        // Temperatura inicial
 #define TF 1.0        // Temperatua final
 #define dT -0.02          // Delta T
 #define TRANS 5000      // Número de MCS para jogar fora (transiente)
-#define manT 1          // Set Temperature array manually
-#define mT {2.9}           // Temperature array
+#define manT 0          // Set Temperature array manually
+#define mT {2.3}           // Temperature array
 #define sizemT 1        // Size of Temerature array if setted manually
 //----------------MEASUREMENTS---------------------------------
 #define dM 1          // Passos entre medidas
@@ -42,7 +42,7 @@ ELE NÃO CRIA A FOLDER, ELE SÓ RECEBE O NOME DELA E BOTA OS ARQUIVOS LÁ
 #define MES 0           // 0 doesn't mesure Energy and Magnetization and time correlation
 #define N1 0            // Counts the number of isolated spins
 #define DIST 0          // Generates a distribution of cluster sizes with logarithmic binning
-#define PERIM 1         // Measures the perimeter of clusters
+#define HULLH 1         // Measures the heterogeneity of hull sizes
 
 int main(int argc, char *argv[]){
     // Changing stack size for recursive function
@@ -104,9 +104,9 @@ int main(int argc, char *argv[]){
     sprintf(saida8,      "%s/n1_%s_%d.dat", FOLDER, shared, seed);
     sprintf(saida9,       "%s/A_%s_%d.dat", FOLDER, shared, seed);
     sprintf(saida10,   "%s/DIST_%s_%d.dat", FOLDER, shared, seed);
-    sprintf(saida11,  "%s/PERIM_%s_%d.dat", FOLDER, shared, seed);
+    sprintf(saida11,  "%s/HULLH_%s_%d.dat", FOLDER, shared, seed);
 
-    FILE *medidas, *img, *ci, *cr, *hk, *cls, *snap, *n1, *meanA, *fdistri, *perim;
+    FILE *medidas, *img, *ci, *cr, *hk, *cls, *snap, *n1, *meanA, *fdistri, *hullH;
 
     if(MES)                medidas = fopen(saida1, "w");
     if(IMG)                img = fopen(saida2, "w");
@@ -118,7 +118,7 @@ int main(int argc, char *argv[]){
     if(N1)                 n1 = fopen(saida8, "w");
     if(A)                  meanA = fopen(saida9, "w");
     if(DIST)               fdistri = fopen(saida10, "w");
-    if(PERIM)              perim = fopen(saida11, "w");
+    if(HULLH)              hullH = fopen(saida11, "w");
 
     FILE *info = fopen(arkinfo, "a");
 
@@ -149,10 +149,12 @@ int main(int argc, char *argv[]){
     int *s0 = (int*)calloc(N, sizeof(int));
     double *crr = (double*)calloc(L/2, sizeof(double));
     double *expBeta = (double*)calloc(3, sizeof(double));
-    int *hksis = (int*)calloc(N, sizeof(int));
-    int *hksize = (int*)malloc(N*sizeof(int));
-    int *hg = (int*)calloc(N, sizeof(int));
-    double *distri = (double *)calloc(N, sizeof(double));
+    int *hksis = (int*)calloc(N, sizeof(int));              // Saves the labelled system
+    int *hksize = (int*)malloc(N*sizeof(int));              // Saves the cluster size of each label
+    int *hg = (int*)calloc(N, sizeof(int));                 // Aux to the function that calculates H
+    double *distri = (double *)calloc(N, sizeof(double));   // Saves the distribution of cluster sizes
+    int *nonperc = (int *)malloc(N*sizeof(int));            // stores the label of clusters not touching the lattice walls
+    int *hullsize = (int *)calloc(N, sizeof(int));           // stores the distribution of hull siizes
 
     if(MES == 0) free(s0);
     if(CR == 0) free(crr);
@@ -229,9 +231,11 @@ int main(int argc, char *argv[]){
                     if(HK == 2) for(int i = 0; i < N; ++i) fprintf(hk, "%d\n", hksis[i]);
                     // Measures the mean size of clusters bigger than 1
                     if(A) fprintf(meanA, "%lf %lf\n", T[temp], meansize(hksize, N));
-                    if(PERIM){
-                        printf("Biggest cluster = %d\n", find_biggest_cluster(hksize, N));
-                        mc_winding(find_biggest_cluster(hksize, N), hksis, viz, perim);
+                    if(HULLH){
+                        find_non_percolating_clusters(nonperc, hksis, hksize, viz, L);
+                        for(int i = 0; i < N; ++i) if(nonperc[i] > 0) hullsize[mc_winding(i, hksis, viz, nonperc[i])]++;
+                        fprintf(hullH, "%lf %d\n", T[temp], hull_H(hullsize, N));
+                        memset(hullsize, 0, N*sizeof(int));
                     }
                 }
                 // Saves the size of each cluster
@@ -279,6 +283,8 @@ int main(int argc, char *argv[]){
     free(hksize);
     free(hg);
     free(distri);
+    free(nonperc);
+    free(hullsize);
     if(MES != 0) free(s0);
     if(CR != 0) free(crr);
 
@@ -292,6 +298,7 @@ int main(int argc, char *argv[]){
     if(N1)                 fclose(n1);
     if(A)                  fclose(meanA);
     if(DIST)               fclose(fdistri);
+    if(HULLH)              fclose(hullH);
     fclose(info);
 
     return 0;

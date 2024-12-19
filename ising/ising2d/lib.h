@@ -44,6 +44,9 @@ double *logspace(double a, double b, int n);
 
 int find_biggest_cluster(int *hksize, int N);
 
-void mc_winding(int qual, int *hk, int **nmtx, FILE *fout);
+int mc_winding(int qual, int *hk, int **nmtx, int size);
 
+void find_non_percolating_clusters(int *nonperc, int *hk, int *hksize, int **nmtx, int L);
+ 
+int hull_H(int *hullsize, int N);
 #endif

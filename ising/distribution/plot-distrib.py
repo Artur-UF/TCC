@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from glob import glob
-plt.rcParams.update({"text.usetex" : True, "font.family" : "serif", "font.serif" : ["Computer Modern Serif"], "font.size" : 15})
+:x
+:x
 
 L = 1000
 

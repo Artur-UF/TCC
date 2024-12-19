@@ -3,7 +3,7 @@ import numpy as np
 from glob import glob
 plt.rcParams.update({"text.usetex" : True, "font.family" : "serif", "font.serif" : ["Computer Modern Serif"], "font.size" : 35})
 
-L = 10
+L = 50
 
 path = 'imgs'
 sispath = glob(path+'/snap*')[0]
@@ -33,8 +33,8 @@ plt.xticks([],[])
 plt.yticks([],[])
 plt.title(r'$(a)$')
 
-for (i, j), label in np.ndenumerate(np.reshape(np.arange(0, L**2, 1), (L, L))):
-    ax[0].text(j, i, label, ha='center', va='center', fontsize=10, backgroundcolor='w')
+#for (i, j), label in np.ndenumerate(np.reshape(np.arange(0, L**2, 1), (L, L))):
+#    ax[0].text(j, i, label, ha='center', va='center', fontsize=10, backgroundcolor='w')
 
 
 plt.subplot(122)
@@ -43,8 +43,8 @@ plt.xticks([],[])
 plt.yticks([],[])
 plt.title(r'$(b)$')
 
-for (i, j), label in np.ndenumerate(np.reshape(hk, (L, L))):
-    ax[1].text(j, i, int(label), ha='center', va='center', fontsize=10, backgroundcolor='w')
+#for (i, j), label in np.ndenumerate(np.reshape(hk, (L, L))):
+#    ax[1].text(j, i, int(label), ha='center', va='center', fontsize=10, backgroundcolor='w')
 
 plt.savefig('hkimg.png', dpi=400)
 
