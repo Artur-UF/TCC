@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from glob import glob
-plt.rcParams.update({"text.usetex" : True, "font.family" : "serif", "font.serif" : ["Computer Modern Serif"], "font.size" : 35})
+plt.rcParams.update({"text.usetex" : True, "font.family" : "serif", "font.serif" : ["Computer Modern Serif"], "font.size" : 40})
 
 L = 50
 
@@ -38,7 +38,7 @@ plt.title(r'$(a)$')
 
 
 plt.subplot(122)
-plt.imshow(nhk, cmap='nipy_spectral', vmin=hkmin, vmax=hkmax)
+plt.imshow(nhk, cmap='gist_ncar', vmin=hkmin, vmax=hkmax)
 plt.xticks([],[])
 plt.yticks([],[])
 plt.title(r'$(b)$')
