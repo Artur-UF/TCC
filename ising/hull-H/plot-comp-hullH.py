@@ -11,13 +11,15 @@ tc_hg_files = sorted(glob('tc-Hg*'))
 hg_files = sorted(glob('Hg*'))
 
 
-marker = ['>', '^', 's', '+', 'v', 'o']
-color = ['r', 'b', 'g', 'purple', 'brown', 'olive']
+marker2 = ['o', '^', 'v']
+marker1 = [r'$\bigcirc$', r'$\bigtriangleup$', r'$\bigtriangledown$']
+
+color = ['r', 'b', 'g']
 
 fig, ax = plt.subplots(1, 2, figsize=(12, 5), layout='constrained')
 
 linewidth = 0.7
-markersize = 3
+markersize = 7
 tc = 2.269
 
 
@@ -33,11 +35,11 @@ def legenda(l, i, h):
 plt.subplot(121)
 for i in range(len(tc_hh_files)):
     t, hh = np.loadtxt(tc_hh_files[i], unpack=True)
-    plt.plot(t, hh, linewidth=linewidth, markersize=markersize, marker=marker[i], color=color[i], label=legenda(int(tc_hh_files[i].split('_')[1]), i, 'hh'))
+    plt.plot(t, hh, linewidth=linewidth, markersize=markersize, marker=marker1[i], color=color[i], label=legenda(int(tc_hh_files[i].split('_')[1]), i, 'hh'))
 
 for i in range(len(tc_hg_files)):
     h, h2, t = np.loadtxt(tc_hg_files[i], unpack=True)
-    plt.plot(t, h, linewidth=linewidth, markersize=markersize, marker=marker[-(i+1)], color=color[-(i+1)], linestyle='dashed', label=legenda(int(tc_hg_files[i].split('_')[1]), i, 'hg'))
+    plt.plot(t, h, linewidth=linewidth, markersize=markersize, marker=marker2[i], color=color[i], linestyle='dashed', label=legenda(int(tc_hg_files[i].split('_')[1]), i, 'hg'))
 
 ylim = (50, 550)
 xlim = (2.1, 2.405)
@@ -56,11 +58,11 @@ plt.legend(loc='upper left', ncols=2, title=r'H-Perímetro $\>\>$ H-Tamanho', fo
 plt.subplot(122)
 for i in range(len(hh_files)):
     t, hh = np.loadtxt(hh_files[i], unpack=True)
-    plt.plot(t, hh, linewidth=linewidth, markersize=markersize, marker=marker[i], color=color[i], label=legenda(int(hh_files[i].split('_')[1]), i, 'hh'))
+    plt.plot(t, hh, linewidth=linewidth, markersize=markersize, marker=marker1[i], color=color[i], label=legenda(int(hh_files[i].split('_')[1]), i, 'hh'))
 
 for i in range(len(hg_files)):
     h, h2, t = np.loadtxt(hg_files[i], unpack=True)
-    plt.plot(t, h, linewidth=linewidth, markersize=markersize, marker=marker[-(i+1)], color=color[-(i+1)], linestyle='dashed', label=legenda(int(hg_files[i].split('_')[1]), i, 'hg'))
+    plt.plot(t, h, linewidth=linewidth, markersize=markersize, marker=marker2[i], color=color[i], linestyle='dashed', label=legenda(int(hg_files[i].split('_')[1]), i, 'hg'))
 
 ylim = (0, 1250)
 xlim = (1, 10.1)

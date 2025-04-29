@@ -58,7 +58,7 @@ def func3(x, a):
 def func4(x, a, b, c):
     return c + a*x**(b)
 
-cut = 4
+cut = 5
 
 pr1, pcov1 = opt.curve_fit(func2, Ls2[cut:], Ts[cut:])
 pr2, pcov2 = opt.curve_fit(func3, Ls2[cut:], Ts[cut:])
@@ -72,12 +72,14 @@ print(np.sqrt(np.diag(pcov3)))
 plt.subplot(121)
 plt.scatter(np.log10(Ls2), Ts, c='k', s=300, marker='*')
 x = np.linspace(10**(-4.5), 10**(-2.95), 200)
+
+plt.plot(np.log10(x), func4(x, pr3[0], pr3[1], pr3[2]), c='k', linestyle='dashed', zorder=0, label=rf'$T_? = {pr3[2]:.2f} \> | \> a = {pr3[0]:.2f} \> | \> b = {pr3[1]:.2f}$')
+
 plt.plot(np.log10(x), func2(x, pr1[0], pr1[1]), c='r', linestyle='dashed', zorder=0, label=rf'$T_3 = {t3:.2f} \> | \> a = {pr1[0]:.2f} \> | \> b = {pr1[1]:.2f}$')
 
 #plt.plot(np.log10(x), func3(x, pr2[0], pr2[1]), c='g', linestyle='dashed', zorder=0, label=rf'$T_c = {tc:.2f} \> | \> a = {pr2[0]:.2f} \> | \> b = {pr2[1]:.2f}$')
 plt.plot(np.log10(x), func3(x, pr2[0]), c='g', linestyle='dashed', zorder=0, label=rf'$T_c = {tc:.2f} \> | \> a = {pr2[0]:.2f} \> | \> b = {b:.2f}$')
 
-plt.plot(np.log10(x), func4(x, pr3[0], pr3[1], pr3[2]), c='k', linestyle='dashed', zorder=0, label=rf'$T_? = {pr3[2]:.2f} \> | \> a = {pr3[0]:.2f} \> | \> b = {pr3[1]:.2f}$')
 
 
 plt.yticks([4, 3, t3, tc, 2], [4, 3, r'$T_3$', r'$T_c$', 2])
@@ -144,10 +146,10 @@ plt.scatter(X3, T3, c='r', s=300, marker='*')
 plt.scatter(X3, TC, c='g', s=300, marker='*')
 x = np.linspace(10**(xlim[0]), 10**(xlim[1]), 200)
 
-plt.plot(np.log10(x0), (np.log10(pr1[0]) + abs(pr1[1])*np.log10(x0)), c='r', linestyle='dashed', zorder=0, label=rf'$T_3 = {t3:.2f} \> | \> a = {pr1[0]:.2f} \> | \> b = {pr1[1]:.2f}$')
-
 #plt.plot(np.log10(x0), (np.log10(pr2[0]) + abs(pr2[1])*np.log10(x0)), c='g', linestyle='dashed', zorder=0, label=rf'$T_c = {tc:.2f} \> | \> a = {pr2[0]:.2f} \> | \> b = {pr2[1]:.2f}$')
 plt.plot(np.log10(x0), (np.log10(pr2[0]) + (b)*np.log10(x0)), c='g', linestyle='dashed', zorder=0, label=rf'$T_c = {tc:.2f} \> | \> a = {pr2[0]:.2f} \> | \> b = {b:.2f} $')
+
+plt.plot(np.log10(x0), (np.log10(pr1[0]) + abs(pr1[1])*np.log10(x0)), c='r', linestyle='dashed', zorder=0, label=rf'$T_3 = {t3:.2f} \> | \> a = {pr1[0]:.2f} \> | \> b = {pr1[1]:.2f}$')
 
 plt.plot(np.log10(x0), (np.log10(pr3[0]) + abs(pr3[1])*np.log10(x0)), c='k', linestyle='dashed', zorder=0, label=rf'$T_? = {pr3[2]:.2f} \> | \> a = {pr3[0]:.2f} \> | \> b = {abs(pr3[1]):.2f}$')
 

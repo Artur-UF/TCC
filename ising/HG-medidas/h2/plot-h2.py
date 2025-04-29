@@ -10,13 +10,13 @@ tc_hg_files = sorted(glob('tc-Hg*'))
 hg_files = sorted(glob('Hg*'))
 
 
-marker = ['>', '^', 's', '+', 'v', 'o']
-color = ['r', 'b', 'g', 'purple', 'brown', 'olive']
+marker = ['^', 's', 'o']
+color = ['r', 'b', 'g']
 
 fig, ax = plt.subplots(1, 2, figsize=(12, 5), layout='constrained')
 
 linewidth = 0.7
-markersize = 3
+markersize = 5
 tc = 2.269
 
 
@@ -32,7 +32,7 @@ def legenda(l, i, h):
 plt.subplot(121)
 for i in range(len(tc_hg_files)):
     h, h2, t = np.loadtxt(tc_hg_files[i], unpack=True)
-    plt.plot(t, h2, linewidth=linewidth, markersize=markersize, marker=marker[-(i+1)], color=color[-(i+1)], linestyle='solid', label=legenda(int(tc_hg_files[i].split('_')[2]), i, 'hg'))
+    plt.plot(t, h2, linewidth=linewidth, markersize=markersize, marker=marker[i], color=color[i], linestyle='solid', label=legenda(int(tc_hg_files[i].split('_')[1]), i, 'hg'))
 
 ylim = (3000, 290000)
 
@@ -50,7 +50,7 @@ plt.legend(loc='upper left', ncols=1, fontsize=12)
 plt.subplot(122)
 for i in range(len(hg_files)):
     h, h2, t = np.loadtxt(hg_files[i], unpack=True)
-    plt.plot(t, h2, linewidth=linewidth, markersize=markersize, marker=marker[-(i+1)], color=color[-(i+1)], linestyle='solid', label=legenda(int(hg_files[i].split('_')[2]), i, 'hg'))
+    plt.plot(t, h2, linewidth=linewidth, markersize=markersize, marker=marker[i], color=color[i], linestyle='solid', label=legenda(int(hg_files[i].split('_')[1]), i, 'hg'))
 
 
 ylim = (0, 1500000)
